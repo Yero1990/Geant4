@@ -1,0 +1,14 @@
+notes
+
+* When building GEANT4, and you get the error:
+
+CMake Error at cmake/Modules/G4CMakeMain.cmake:83 (message):
+Geant4Py only supports 'global-dynamic' thread local storage
+
+
+try to build with these flags:
+-DGEANT4_USE_PYTHON=ON
+-DGEANT4_BUILD_MULTITHREADED=ON
+-DGEANT4_BUILD_TLS_MODEL=global-dynamic
+
+reference: (https://geant4-forum.web.cern.ch/t/could-i-build-geant4-with-mt-and-python-option-together/3145/2)
