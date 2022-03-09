@@ -1,14 +1,45 @@
-notes
+------------------------------------
+Geant 4 Release 11 Installation Tip
+------------------------------------
 
-* When building GEANT4, and you get the error:
+Follow the instructions for installing/building from source:
+
+1. get the source .tar file:  https://geant4.web.cern.ch/support/download
+
+2. follow the instructions from: https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/fo/Geant4InstallationGuide.pdf
+(starting on page 8, "2.6.2 Building and Installing froms Source")
+
+
+* When building GEANT4,  you might encounter the error along the lines (like I did):
 
 CMake Error at cmake/Modules/G4CMakeMain.cmake:83 (message):
 Geant4Py only supports 'global-dynamic' thread local storage
 
+If so, then try to build with these flags:
 
-try to build with these flags:
 -DGEANT4_USE_PYTHON=ON
 -DGEANT4_BUILD_MULTITHREADED=ON
 -DGEANT4_BUILD_TLS_MODEL=global-dynamic
 
+so for example, you might do: 
+cmake -DGEANT4_USE_PYTHON=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_BUILD_TLS_MODEL=global-dynamic -DCMAKE_INSTALL_PREFIX=/path/to/geant4-v11.0.0-install /path/to/geant4-v11.0.0
+
 reference: (https://geant4-forum.web.cern.ch/t/could-i-build-geant4-with-mt-and-python-option-together/3145/2)
+
+---------------------------------------------
+Geant 4 Release 11 Doing first basic example
+---------------------------------------------
+
+
+Under subdirectory: examples/,  there are various README files
+The "README.HowToRun" actually guides you thru the steps to running a generic example
+
+There is also the document: https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/fo/BookForApplicationDevelopers.pdf
+On this document, go to page 36, and follow the: "Building ExampleB1 with CMake on Unix with Makefiles"
+
+Once you get to the executable part: ./exampleB1,  you might encounter an error, where it says it might be missing setting some environment variables
+This is beacuse you need to source geant4.sh first (nobody said anything about this, but . . ..  agh)
+So, go to the geant4-install directory (that was created when building geant), and there should be /bin/ directory containng the geant4.csh or geant4.sh files
+so one of these need to be source, which actually defines the geant4 environment variables needed to run properly (so do source geant4.sh), and then the example
+should run fine.
+Later on, it might be better to put the source geant4.sh command in your shell script (either bash, zshrc, etc.), so that you don't have to do it every time
