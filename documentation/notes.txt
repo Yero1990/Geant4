@@ -21,8 +21,19 @@ If so, then try to build with these flags:
 -DGEANT4_BUILD_MULTITHREADED=ON
 -DGEANT4_BUILD_TLS_MODEL=global-dynamic
 
+#visualization options
+-DGEANT4_USE_OPENGL_X11=ON
+-DGEANT4_USE_QT=ON
+-DGEANT4_USE_RAYTRACER_X11=ON
+-DGEANT4_USE_XM=ON
+-DGEANT4_USE_TOOLSSG=X11 or XT or QT
+-DGEANT4_USE_INVENTOR_QT=ON
 so for example, you might do: 
 cmake -DGEANT4_USE_PYTHON=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_BUILD_TLS_MODEL=global-dynamic -DCMAKE_INSTALL_PREFIX=/path/to/geant4-v11.0.0-install /path/to/geant4-v11.0.0
+
+or
+
+cmake -DGEANT4_USE_PYTHON=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_BUILD_TLS_MODEL=global-dynamic -DGEANT4_USE_OPENGL_X11=ON  -DGEANT4_USE_QT=ON -DGEANT4_USE_INVENTOR_QT=ON -DGEANT4_USE_RAYTRACER_X11=ON -DGEANT4_USE_XM=ON -DGEANT4_USE_TOOLSSG=QT -DCMAKE_INSTALL_PREFIX=~/geant4-source/geant4-v11.0.1-install ~/geant4-source/geant4-v11.0.1/
 
 reference: (https://geant4-forum.web.cern.ch/t/could-i-build-geant4-with-mt-and-python-option-together/3145/2)
 
@@ -43,3 +54,43 @@ So, go to the geant4-install directory (that was created when building geant), a
 so one of these need to be source, which actually defines the geant4 environment variables needed to run properly (so do source geant4.sh), and then the example
 should run fine.
 Later on, it might be better to put the source geant4.sh command in your shell script (either bash, zshrc, etc.), so that you don't have to do it every time
+
+
+
+
+-------------------------------------
+TIP for getting visualization graphics
+-------------------------------------
+When I run ./exampleB1 I get:
+assertion failed: (pthreadret == 0), function _xcb_in_wake_up_next_reader, file xcb_in.c, line 926
+
+I found something helpful in reference:
+https://geant4-forum.web.cern.ch/t/g4openglxviewer-problem-with-macos-catalina/2967/11
+-- Found X11: /opt/miniconda3/include   
+-- Found XQuartzGL: /usr/X11R6/include   (X11 -> ../private/var/select/X11, X11R6 -> ../private/var/select/X11)
+(I have not been able to do this myslef)
+
+
+--------------------
+What worked for me:
+--------------------
+For getting a visual of Geant4 exampleB1, what worked for me was using RayTracer program in the vis.mac macro
+
+For example, put in the vis.mac macro:
+
+# Use this open statement to create a .jpeg file
+/vis/open RayTracer
+#
+. . . and make sure that at the end this line is un-commented out
+# For file-based drivers, use this to create an empty detector view:
+/vis/viewer/flush
+
+
+
+
+-----------------------
+** I STILL NEED TO FIGURE OUT HOW TO USE OPEN-GL 
+-----------------------
+After installing Qt5 visual driver: brew install qt@5
+and using the flag: -DGEANT4_USE_QT=ON and -DGEANT4_USE_TOOLSSG=QT (in addition to the other flags above-mentioned)
+during the cmake building process of geant, I was able to get an interactive display working
