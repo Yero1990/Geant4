@@ -28,6 +28,8 @@ If so, then try to build with these flags:
 -DGEANT4_USE_XM=ON
 -DGEANT4_USE_TOOLSSG=X11 or XT or QT
 -DGEANT4_USE_INVENTOR_QT=ON
+-DGEANT4_INSTALL_DATA=ON
+
 so for example, you might do: 
 cmake -DGEANT4_USE_PYTHON=ON -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_BUILD_TLS_MODEL=global-dynamic -DCMAKE_INSTALL_PREFIX=/path/to/geant4-v11.0.0-install /path/to/geant4-v11.0.0
 

@@ -1,8 +1,7 @@
 /Users/nuclear/Geant4/CaFe/build/CMakeFiles/install/local.dir
 /Users/nuclear/Geant4/CaFe/build/CMakeFiles/install/strip.dir
 /Users/nuclear/Geant4/CaFe/build/CMakeFiles/install.dir
+/Users/nuclear/Geant4/CaFe/build/CMakeFiles/particle_on_target.dir
 /Users/nuclear/Geant4/CaFe/build/CMakeFiles/list_install_components.dir
 /Users/nuclear/Geant4/CaFe/build/CMakeFiles/rebuild_cache.dir
 /Users/nuclear/Geant4/CaFe/build/CMakeFiles/edit_cache.dir
-/Users/nuclear/Geant4/CaFe/build/CMakeFiles/B1.dir
-/Users/nuclear/Geant4/CaFe/build/CMakeFiles/exampleB1.dir

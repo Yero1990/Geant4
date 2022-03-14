@@ -1,190 +1,133 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-//
-/// \file DetectorConstruction.cc
-/// \brief Implementation of the B1::DetectorConstruction class
-
+/// \file hadronic/Hadr02/src/DetectorConstruction.cc
+/// \brief Implementation of the DetectorConstruction class
 #include "DetectorConstruction.hh"
+#include "DetectorMessenger.hh"
 
-#include "G4RunManager.hh"
-#include "G4NistManager.hh"
-#include "G4Box.hh"
-#include "G4Cons.hh"
-#include "G4Orb.hh"
-#include "G4Sphere.hh"
-#include "G4Trd.hh"
+#include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
+
+#include "G4RunManager.hh"
+
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
+
+#include "G4VisAttributes.hh"
+#include "G4Colour.hh"
+
+#include "G4UnitsTable.hh"
+#include "G4ios.hh"
+
+#include "TargetSD.hh"
+#include "G4SDManager.hh"
+#include "HistoManager.hh"
+#include "G4NistManager.hh"
+
+#include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
-namespace B1
-{
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
-{}
+  : G4VUserDetectorConstruction(), fRadius(10.*cm), fTargetMaterial(0), fWorldMaterial(0),
+    fTargetSD(0), fLogicTarget(0), fLogicWorld (0), fDetectorMessenger(0)
+{
+  fDetectorMessenger = new DetectorMessenger(this);
+  
+  // Prepare sensitive detectors
+  fTargetSD = new TargetSD("targetSD");
+  G4SDManager::GetSDMpointer()->AddNewDetector(fTargetSD);
+} 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-DetectorConstruction::~DetectorConstruction()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+DetectorConstruction::~DetectorConstruction() {
+  delete fDetectorMessenger;
+}
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-  // Get nist material manager
-  G4NistManager* nist = G4NistManager::Instance();
-
-  // Envelope parameters
-  //
-  G4double env_sizeXY = 20*cm, env_sizeZ = 30*cm;
-  G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
-
-  // Option to switch on/off checking of volumes overlaps
-  //
-  G4bool checkOverlaps = true;
-
-  //
+  // Cleanup old geometry
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  G4PhysicalVolumeStore::GetInstance()->Clean();
+  G4LogicalVolumeStore::GetInstance()->Clean();
+  G4SolidStore::GetInstance()->Clean();
+  
+  // The target
+  fRadius             = 10. * mm / 2; // define the target radius
+  G4double target_dz  = 5. * mm; // define the target length
+  G4double worldR     = 1.*m;
+  G4double worldZ     = 2.*m;
+  SetTargetMaterial();
+  SetWorldMaterial("G4_AIR");
+  
   // World
-  //
-  G4double world_sizeXY = 1.6*env_sizeXY;
-  G4double world_sizeZ  = 1.6*env_sizeZ;
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Tubs* solidW = new G4Tubs("World",0.,worldR,worldZ,0.,twopi);
+  fLogicWorld = new G4LogicalVolume( solidW,fWorldMaterial,"World");
+  G4VPhysicalVolume* world = new G4PVPlacement(0,G4ThreeVector(), fLogicWorld,"World",0,false,0);
+  G4VisAttributes zero = G4VisAttributes::GetInvisible();
+  fLogicWorld->SetVisAttributes(zero);
+  
+  // Target volume
+  G4Tubs* solidA = new G4Tubs("Target",0.,fRadius, target_dz,0.,twopi);
+  fLogicTarget = new G4LogicalVolume( solidA, fTargetMaterial,"Target");
+  fLogicTarget->SetSensitiveDetector(fTargetSD);
 
-  G4Box* solidWorld =
-    new G4Box("World",                       //its name
-       0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);     //its size
+  physTarget = new G4PVPlacement(0,
+				 G4ThreeVector(0.0,0.0, target_dz/2 ), // location
+				 fLogicTarget, "Target",fLogicWorld,false,0);
 
-  G4LogicalVolume* logicWorld =
-    new G4LogicalVolume(solidWorld,          //its solid
-                        world_mat,           //its material
-                        "World");            //its name
-
-  G4VPhysicalVolume* physWorld =
-    new G4PVPlacement(0,                     //no rotation
-                      G4ThreeVector(0.*cm, 0.*cm, 0.*cm),       //at (0,0,0)
-                      logicWorld,            //its logical volume
-                      "World",               //its name
-                      0,                     //its mother  volume
-                      false,                 //no boolean operation
-                      0,                     //copy number
-                      checkOverlaps);        //overlaps checking
-
-  //
-  // Envelope
-  //
-  G4Box* solidEnv =
-    new G4Box("Envelope",                    //its name
-        0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ); //its size
-
-  G4LogicalVolume* logicEnv =
-    new G4LogicalVolume(solidEnv,            //its solid
-                        env_mat,             //its material
-                        "Envelope");         //its name
-
-  new G4PVPlacement(0,                       //no rotation
-                    G4ThreeVector(),         //at (0,0,0)
-                    logicEnv,                //its logical volume
-                    "Envelope",              //its name
-                    logicWorld,              //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
-
-  //
-  // Shape 1
-  //
-  G4Material* shape1_mat = nist->FindOrBuildMaterial("G4_A-150_TISSUE");
-  G4ThreeVector pos1 = G4ThreeVector(0, 2*cm, -11*cm);
-
-  // Conical section shape
-  G4double shape1_rmina =  0.*cm, shape1_rmaxa = 2.*cm;
-  G4double shape1_rminb =  0.*cm, shape1_rmaxb = 4.*cm;
-  G4double shape1_hz = 3.*cm;
-  G4double shape1_phimin = 0.*deg, shape1_phimax = 180.*deg;
-  G4Cons* solidShape1 =
-    new G4Cons("Shape1",
-    shape1_rmina, shape1_rmaxa, shape1_rminb, shape1_rmaxb, shape1_hz,
-    shape1_phimin, shape1_phimax);
-
-  G4LogicalVolume* logicShape1 =
-    new G4LogicalVolume(solidShape1,         //its solid
-                        shape1_mat,          //its material
-                        "Shape1");           //its name
-
-  new G4PVPlacement(0,                       //no rotation
-                    pos1,                    //at position
-                    logicShape1,             //its logical volume
-                    "Shape1",                //its name
-                    logicEnv,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
-
-  //
-  // Shape 2
-  //
-  G4Material* shape2_mat = nist->FindOrBuildMaterial("G4_BONE_COMPACT_ICRU");
-  G4ThreeVector pos2 = G4ThreeVector(0, -1*cm, 7*cm);
-
-  // Trapezoid shape
-  G4double shape2_dxa = 12*cm, shape2_dxb = 12*cm;
-  G4double shape2_dya = 10*cm, shape2_dyb = 16*cm;
-  G4double shape2_dz  = 6*cm;
-  G4Trd* solidShape2 =
-    new G4Trd("Shape2",                      //its name
-              0.5*shape2_dxa, 0.5*shape2_dxb,
-              0.5*shape2_dya, 0.5*shape2_dyb, 0.5*shape2_dz); //its size
-
-  G4LogicalVolume* logicShape2 =
-    new G4LogicalVolume(solidShape2,         //its solid
-                        shape2_mat,          //its material
-                        "Shape2");           //its name
-
-  new G4PVPlacement(0,                       //no rotation
-                    pos2,                    //at position
-                    logicShape2,             //its logical volume
-                    "Shape2",                //its name
-                    logicEnv,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
-
-  // Set Shape2 as scoring volume
-  //
-  fScoringVolume = logicShape2;
-
-  //
-  //always return the physical World
-  //
-  return physWorld;
+  G4VisAttributes regCcolor(G4Colour(0.8, 0.3, 0.2));
+  fLogicTarget->SetVisAttributes(regCcolor);
+    
+   
+  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+  return world;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void DetectorConstruction::SetTargetMaterial() {
+  
+    // Set the material to be 40Ca
+    // We can use G4_Ca here, but since additional targets will be simulated,
+    // I give here an example of how to define a specified material
+    // effective A = 40.08 g/mole
+    // mass density near room temperature 1.55 g/cm3
+    G4int ncomponents, natoms;
+    G4String symbol;
+    G4double Aeff, z, density;      //z=mean number of protons;
+    G4Element* Ca40 = new G4Element("Calcium", symbol = "Ca",  z = 20, Aeff = 40.08 * g/mole );
 
+    G4Material* CalciumMaterial = new G4Material("CalciumMaterial", density = 1.55 * g/cm3, ncomponents=1);
+    CalciumMaterial->AddElement(Ca40, natoms=1);
+    
+    fTargetMaterial = CalciumMaterial;
+    HistoManager::GetPointer()->SetTargetMaterial(fTargetMaterial);
+    G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+    
 }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void DetectorConstruction::SetWorldMaterial(const G4String& mat){
+
+  // search the material by its name
+  G4Material* material = G4NistManager::Instance()->FindOrBuildMaterial(mat);
+  
+  if (material && material != fWorldMaterial) {
+    fWorldMaterial = material;
+    if(fLogicWorld) { fLogicWorld->SetMaterial(fWorldMaterial); }
+    G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+  }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void DetectorConstruction::SetTargetRadius(G4double val)  {
+  if(val > 0.0) {
+    fRadius = val;
+    G4RunManager::GetRunManager()->GeometryHasBeenModified();
+  }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -1,65 +1,106 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-//
-/// \file EventAction.hh
-/// \brief Definition of the B1::EventAction class
+/// \file hadronic/Hadr02/include/EventAction.hh
+/// \brief Definition of the EventAction class
 
-#ifndef B1EventAction_h
-#define B1EventAction_h 1
+#ifndef EventAction_h
+#define EventAction_h 1
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
+#include "Run.hh"
+#include "G4RunManager.hh"
+#include "G4Track.hh"
 
-/// Event action class
-///
+#include <vector>
+#include <stdio.h>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <sstream>
 
-namespace B1
-{
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
-class RunAction;
+class G4Event;
+class EventActionMessenger;
+class G4Track;
 
 class EventAction : public G4UserEventAction
 {
-  public:
-    EventAction(RunAction* runAction);
-    ~EventAction() override;
+public: // Without description
+    
+    int         fdebug = 2;
+    G4double    Zresolution = 0.1; // Z-detection resolution for Cerenkov detector
+    
+    /// CLHEP random engine.
+    CLHEP::HepRandomEngine* fRandomEngine;
+    
+    /// CLHEP random engine used in gaussian smearing.
+    CLHEP::RandGauss* fRandomGauss;
+    
+    
+    EventAction();
+    virtual ~EventAction();
+    
+    virtual void BeginOfEventAction(const G4Event*);
+    virtual void   EndOfEventAction(const G4Event*);
+    
+    void AddEventToDebug(G4int val);
+    
+    
+    
+    std::vector<G4double> Z_fragments;
+    std::vector<G4double> A_fragments;
+    G4double Zeff; // sum over Z^2 of all fragments that reach +/- 1.7 deg. detector
+    G4double Zsmearedeff; // smeared Z
+    G4int Nprotons, Npions, NHe3, NHe4, NLi6, NLi7, NBe8, NBe9, NBe10, NBe11, NB8, NB9, NB10, NB11;
+    G4int NfragmentsInAngularCut; // number of nuclear fragments in nuclear cut
+    
+    G4int Nfragment[10][20];
+    std::vector<G4String> breakup_fragments, event_particles;
 
-    void BeginOfEventAction(const G4Event* event) override;
-    void EndOfEventAction(const G4Event* event) override;
+    
+    G4bool  CheckIfPassedTriggerCuts ( ); // check if event passed trigger cuts
+    void       ClearEventTrackVector ( );
+    void            RecordEventTrack ( const G4Track * track );
+    G4bool            InSpectrometer ( G4Track * track, G4String Side );
+    std::vector<G4Track*> eventTracks;
+    // vector of fragment tracks
+    std::vector<G4Track*> GetEventTracks() {return eventTracks;};
+    G4bool      event_passed_trigger_cuts;
+    
+    
+    void   WritePrimaryMomentumToCSV ();
+    
+    
+    void   SetPrimaryPreStepMomentum ( G4ThreeVector p )
+    { PrimaryPreStepMomenta.push_back(p); };
+    
+    void  SetPrimaryPostStepMomentum ( G4ThreeVector p )
+    { PrimaryPostStepMomenta.push_back(p); };
 
-    void AddEdep(G4double edep) { fEdep += edep; }
 
-  private:
-    RunAction* fRunAction = nullptr;
-    G4double   fEdep = 0.;
+    G4ThreeVector   GetPrimaryPreStepMomentum ( int i )
+    { return PrimaryPreStepMomenta.at(i); };
+    
+    G4ThreeVector  GetPrimaryPostStepMomentum ( int i )
+    { return PrimaryPostStepMomenta.at(i); };
+
+    
+private:
+    
+    EventActionMessenger* fEventMessenger;
+    std::vector<G4int>    fSelectedEvents;
+    
+    G4int       fNSelected;
+    G4bool      fDebugStarted;
+    
+    std::vector<G4ThreeVector>   PrimaryPreStepMomenta;
+    std::vector<G4ThreeVector>  PrimaryPostStepMomenta;
+    G4String      PrimaryName;
+    G4ThreeVector PrimaryInitialMomentum;
+    G4ThreeVector PrimaryFinalMomentum;
+    
+    
 };
-
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 
