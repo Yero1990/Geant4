@@ -65,7 +65,7 @@ public:
 
 private:
 
-  DetectorConstruction* fDetector;
+  //DetectorConstruction* fDetector;
 
   G4UIdirectory*             fTestDir;
   G4UIcmdWithAString*        fMatCmd;

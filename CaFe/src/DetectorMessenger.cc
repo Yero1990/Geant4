@@ -18,7 +18,7 @@
 
 DetectorMessenger::DetectorMessenger(DetectorConstruction * det)
 : G4UImessenger(),
-fDetector(det),
+  //fDetector(det),
 fTestDir(0),
 fMatCmd(0),
 fMat1Cmd(0),
@@ -114,13 +114,17 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
         //    fDetector->SetTargetMaterial(newValue);
         std::cout << "target material is fixed to be liquid Hydrogen. If you want to change it, see Hadr02 example.." << std::endl;
         
-    } else if( command == fMat1Cmd ) {
-        fDetector->SetWorldMaterial(newValue);
-    } else if( command == fIonCmd ) {
-        h->SetIonPhysics(newValue);
-    } else if( command == fRCmd ) {
-        fDetector->SetTargetRadius(fRCmd->GetNewDoubleValue(newValue));
-    } else if( command == fLCmd ) {
+    }
+
+    //else if( command == fMat1Cmd ) { fDetector->SetWorldMaterial(newValue); }
+
+    else if( command == fIonCmd ) {
+      h->SetIonPhysics(newValue);
+    }
+
+    //else if( command == fRCmd ) { fDetector->SetTargetRadius(fRCmd->GetNewDoubleValue(newValue)); }
+    
+    else if( command == fLCmd ) {
         h->SetTargetLength(fLCmd->GetNewDoubleValue(newValue));
     } else if( command == fNOfAbsCmd ) {
         h->SetNumberOfSlices(fNOfAbsCmd->GetNewIntValue(newValue));

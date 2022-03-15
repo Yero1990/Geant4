@@ -4,6 +4,7 @@
 #include "DetectorMessenger.hh"
 
 #include "G4Tubs.hh"
+#include "G4Box.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 
@@ -32,9 +33,9 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
-  : G4VUserDetectorConstruction(), fRadius(10.*cm), fTargetMaterial(0), fWorldMaterial(0),
-    fTargetSD(0), fLogicTarget(0), fLogicWorld (0), fDetectorMessenger(0)
+  : G4VUserDetectorConstruction(), fTargetSD(0), fDetectorMessenger(0)
 {
+  G4cout << "Calling DetectorConstruction::DetectorConstruction() . . ." << G4endl;
   fDetectorMessenger = new DetectorMessenger(this);
   
   // Prepare sensitive detectors
@@ -44,90 +45,113 @@ DetectorConstruction::DetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 DetectorConstruction::~DetectorConstruction() {
+  G4cout << "Calling DetectorConstruction::~DetectorConstruction() . . ." << G4endl;
+
   delete fDetectorMessenger;
 }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
+  G4cout << "Calling DetectorConstruction::Construct . . ." << G4endl;
+
   // Cleanup old geometry
   G4GeometryManager::GetInstance()->OpenGeometry();
   G4PhysicalVolumeStore::GetInstance()->Clean();
   G4LogicalVolumeStore::GetInstance()->Clean();
   G4SolidStore::GetInstance()->Clean();
+
+  // Get nist material manager
+  G4NistManager* nist = G4NistManager::Instance();
+
+  //-----------------------------------
+  // C.Y. Create World Mother Volume
+  //-----------------------------------
   
-  // The target
-  fRadius             = 10. * mm / 2; // define the target radius
-  G4double target_dz  = 5. * mm; // define the target length
-  G4double worldR     = 1.*m;
-  G4double worldZ     = 2.*m;
-  SetTargetMaterial();
-  SetWorldMaterial("G4_AIR");
-  
-  // World
-  G4Tubs* solidW = new G4Tubs("World",0.,worldR,worldZ,0.,twopi);
-  fLogicWorld = new G4LogicalVolume( solidW,fWorldMaterial,"World");
-  G4VPhysicalVolume* world = new G4PVPlacement(0,G4ThreeVector(), fLogicWorld,"World",0,false,0);
+
+  // Geometrical World Volume
+  G4double world_sizeX = 5.*m;  // +/- 5 m along x-axis 
+  G4double world_sizeY = 5.*m;  // +/- 5 m ''
+  G4double world_sizeZ = 5.*m;  // +/- 5 m ''
+  G4Box* solidWorld = new G4Box("World",         // its name
+				world_sizeX,     // its size along x-axis
+				world_sizeY,     //  '' along y-axis 
+				world_sizeZ );   //  '' along z-axis
+
+  // Logical World Volume
+  G4Material* Air = nist->FindOrBuildMaterial("G4_AIR");
+  G4LogicalVolume* logicalWorld = new G4LogicalVolume(solidWorld,  // its solid
+						      Air,         // its material
+						      "World");    // its name
+   
+  // Physical World Volume
+  G4VPhysicalVolume* physWorld = new G4PVPlacement(0,                      // no rotation
+						  G4ThreeVector(),   // world volume with origin at (0,0,0)
+						  logicalWorld,           // its logical volume 
+						  "World",                // its name
+						  0,                      // its mother volume (none)
+						  false,                  // no boolean operation
+						  0,                      // copy number
+						  true);                  // overlaps check
+
   G4VisAttributes zero = G4VisAttributes::GetInvisible();
-  fLogicWorld->SetVisAttributes(zero);
+  logicalWorld->SetVisAttributes(zero);
   
-  // Target volume
-  G4Tubs* solidA = new G4Tubs("Target",0.,fRadius, target_dz,0.,twopi);
-  fLogicTarget = new G4LogicalVolume( solidA, fTargetMaterial,"Target");
-  fLogicTarget->SetSensitiveDetector(fTargetSD);
+  //-----------------------------------
+  // C.Y. Create Target Volume
+  //-----------------------------------
 
-  physTarget = new G4PVPlacement(0,
-				 G4ThreeVector(0.0,0.0, target_dz/2 ), // location
-				 fLogicTarget, "Target",fLogicWorld,false,0);
+  // Geometrical Target Volume
+  G4double fRadius    = 6.35  * mm;  // define the target radius
+  G4double fThick     = 4.301 * mm; // define the target length (thickness)
+  //"cylindrical 'hockey puck' shape"
+  G4Tubs* solidA      = new G4Tubs("Target",    // its name
+				   0.,          // inner radius
+				   fRadius,     // outer radius
+				   fThick,      // length ("thickness")
+				   0.,          // phi coverage (min phi)
+				   twopi);      // phi coverage (max phi)
+  
+  // Logical Target Volume
+  G4double Ca48_density = 1.86 * g/cm3;
+  G4double Ca48_mass = 47.952553 * g/mole;
 
-  G4VisAttributes regCcolor(G4Colour(0.8, 0.3, 0.2));
-  fLogicTarget->SetVisAttributes(regCcolor);
-    
+  G4Isotope* Ca48 = new G4Isotope("Ca48", 20, 48, Ca48_mass);
+  G4Element* elCa = new G4Element("Calcium", "Ca", 1 );
+  elCa->AddIsotope(Ca48, 100.*perCent);  //assume target is 100% Ca48 composition
+
+  G4Material* targMat = new G4Material("Calcium", Ca48_density,  1 );
+  targMat->AddElement(elCa, 1);
+  
+  G4LogicalVolume* logicalTarget = new G4LogicalVolume(solidA,       // its solid
+						      targMat,      // its material
+						      "Target");    // its name
+  logicalTarget->SetSensitiveDetector(fTargetSD);
+
+  
+  HistoManager::GetPointer()->SetTargetMaterial(targMat);
+  G4RunManager::GetRunManager()->PhysicsHasBeenModified();
+
+
+   // Physical Target Volume
+  new G4PVPlacement(0,                      // no rotation
+		    G4ThreeVector(0,0,0),    // target volume with origin at (0,0,0)
+		    logicalTarget,           // its logical volume 
+		    "Target",                // its name
+		    logicalWorld,            // its mother volume 
+		    false,                   // no boolean operation
+		    0,                       // copy number
+		    true);                   // overlaps check
+  
+
+  // add color of target for better visual
+  G4VisAttributes tgtColor(G4Colour(0.5,  // red
+				    0.5,  // green
+				    0.5,  // blue
+				    0.1)); // transparency (alpha)
+  
+  logicalTarget->SetVisAttributes(tgtColor);
+
    
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
-  return world;
+  return physWorld;
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void DetectorConstruction::SetTargetMaterial() {
-  
-    // Set the material to be 40Ca
-    // We can use G4_Ca here, but since additional targets will be simulated,
-    // I give here an example of how to define a specified material
-    // effective A = 40.08 g/mole
-    // mass density near room temperature 1.55 g/cm3
-    G4int ncomponents, natoms;
-    G4String symbol;
-    G4double Aeff, z, density;      //z=mean number of protons;
-    G4Element* Ca40 = new G4Element("Calcium", symbol = "Ca",  z = 20, Aeff = 40.08 * g/mole );
-
-    G4Material* CalciumMaterial = new G4Material("CalciumMaterial", density = 1.55 * g/cm3, ncomponents=1);
-    CalciumMaterial->AddElement(Ca40, natoms=1);
-    
-    fTargetMaterial = CalciumMaterial;
-    HistoManager::GetPointer()->SetTargetMaterial(fTargetMaterial);
-    G4RunManager::GetRunManager()->PhysicsHasBeenModified();
-    
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void DetectorConstruction::SetWorldMaterial(const G4String& mat){
-
-  // search the material by its name
-  G4Material* material = G4NistManager::Instance()->FindOrBuildMaterial(mat);
-  
-  if (material && material != fWorldMaterial) {
-    fWorldMaterial = material;
-    if(fLogicWorld) { fLogicWorld->SetMaterial(fWorldMaterial); }
-    G4RunManager::GetRunManager()->PhysicsHasBeenModified();
-  }
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void DetectorConstruction::SetTargetRadius(G4double val)  {
-  if(val > 0.0) {
-    fRadius = val;
-    G4RunManager::GetRunManager()->GeometryHasBeenModified();
-  }
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

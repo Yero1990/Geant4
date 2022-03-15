@@ -23,30 +23,16 @@ public:
     
     virtual G4VPhysicalVolume* Construct();
     
-    void SetWorldMaterial(const G4String&);
-    void SetTargetMaterial();// fixed material: liquid hydrogen
-    
-    void SetTargetRadius(G4double val);
-    
+        
 private:
     
-    DetectorConstruction & operator=(const DetectorConstruction &right);
-    DetectorConstruction(const DetectorConstruction&);
-    
-    G4double fRadius;
-    
-    G4Material*  fTargetMaterial;
-    G4Material*  fWorldMaterial;
-    
-    TargetSD*        fTargetSD;
-    
-    G4LogicalVolume* fLogicTarget;
-    G4LogicalVolume* fLogicWorld;
-    
-    DetectorMessenger* fDetectorMessenger;
-    
-    G4PVPlacement *physTarget;
-    
+  DetectorConstruction & operator=(const DetectorConstruction &right);
+  DetectorConstruction(const DetectorConstruction&);
+  
+  TargetSD*        fTargetSD;
+  DetectorMessenger* fDetectorMessenger;
+  
+  
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....

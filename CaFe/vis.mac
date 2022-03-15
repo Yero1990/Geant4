@@ -1,8 +1,8 @@
 /control/verbose 0
 /run/verbose 0
 
-#/testhadr/ionPhysics    UrQMD
-/testhadr/Physics       CRMC_FTFP_BERT 
+#/testhadr/ionPhysics   UrQMD
+/testhadr/ionPhysics       FTFP_BERT 
 #QBBC
 
 /run/initialize
@@ -14,7 +14,7 @@
 /vis/viewer/set/viewpointThetaPhi 90. 0.
 
 # Draw coordinate axes:
-#/vis/scene/add/axes 0 0 0 1 m
+/vis/scene/add/axes 0 0 0 10 mm
 # Axes, scale, etc.
 
 

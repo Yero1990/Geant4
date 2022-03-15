@@ -61,7 +61,7 @@ int main(int argc,char** argv) {
         phys = factory.GetReferencePhysList( physName );
   }
 
-  cout << "physName ------------- > " << physName << endl;
+  G4cout << "physName ------------- > " << physName << endl;
   // Physics List is defined via environment variable PHYSLIST
   if(!phys) {
     G4cout << "Hadr02 FATAL ERROR: Physics List is not defined"
