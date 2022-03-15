@@ -35,8 +35,7 @@ int main(int argc,char** argv) {
   //Construct the default run manager
   G4RunManager * runManager = new G4RunManager();
   
-  //set mandatory initialization classes
-  
+  //set mandatory DetectorConstruction initialization class
   DetectorConstruction * fDetector = new DetectorConstruction();
   runManager->SetUserInitialization(fDetector);
   
@@ -69,7 +68,9 @@ int main(int argc,char** argv) {
     return 1;
   }
   
+  //set mandatory PhysicsList initialization class
   runManager->SetUserInitialization(phys);
+
   HistoManager::GetPointer()->SetPhysicsList(phys);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   
