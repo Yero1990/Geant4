@@ -1,2 +1,2 @@
 PrimaryParticle,P init x  [GeV/c],P init y  [GeV/c],P init z  [GeV/c],P init    [GeV/c],P final x [GeV/c],P final y [GeV/c],P final z [GeV/c],P final   [GeV/c],
-proton,0,0,1.69604,1.69604,-0.00441002,0.00266925,1.69103,1.69104,
+proton,-1.21418,0,0.530462,1.325,-1.21059,-0.00429359,0.529609,1.32137,

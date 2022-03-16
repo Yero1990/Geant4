@@ -21,8 +21,8 @@ SteppingAction::~SteppingAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void SteppingAction::UserSteppingAction(const G4Step* aStep) {
-    
-    int fdebug=0;
+
+    int fdebug=2;
     
     if (fdebug>1){
         std::cout <<"SteppingAction::UserSteppingAction(const G4Step* aStep) " << std::endl;
@@ -41,9 +41,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     G4double trackl = aStep->GetTrack()->GetTrackLength();
     G4double time   = aStep->GetTrack()->GetLocalTime();
 
-    // incident primary particle - the most important one
-    // we record its pre-step and post-step momentum
-    // in our EventAction object
+
+      
+      // incident primary particle - the most important one
+      // we record its pre-step and post-step momentum
+      // in our EventAction object
     if (aStep->GetTrack()->GetTrackID() == 1) {
         
         fEventAction    -> SetPrimaryPreStepMomentum ( p_start );
@@ -89,7 +91,20 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
         << "Edep: " << Edep/CLHEP::keV
         << " keV"
         << std::endl;
-        
+
+	//C.Y.  useful line to define whether the particle has reached the target volume boundary or not. This might be useful if we
+	// want to know how many particles actually managed to leave the target. see: https://geant4-forum.web.cern.ch/t/how-to-detect-particle-without-killing-it/3209/5
+	//G4bool boundaryHit = endPoint->GetStepStatus() == fGeomBoundary && startPoint->GetPhysicalVolume()->GetName() == "World" ;
+	//G4cout << "startPoint->GetPhysicalVolume()->GetName(): " << startPoint->GetPhysicalVolume()->GetName() << G4endl;
+	//G4cout << "startPoint->GetStepStatus(): " << startPoint->GetStepStatus() << G4endl;
+	//G4cout << "endPoint->GetStepStatus(): " << endPoint->GetStepStatus() << G4endl;
+	G4cout << "fGeomBoundary: " << fGeomBoundary << G4endl;
+	if (aStep->GetPreStepPoint()->GetStepStatus() == fGeomBoundary) {
+	  std::cout << "Step starts on geometry boundary" << std::endl;
+	}
+	if (aStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary) {
+	  std::cout << "Step ends on geometry boundary ! ! !" << std::endl;
+	}
         
     }
     

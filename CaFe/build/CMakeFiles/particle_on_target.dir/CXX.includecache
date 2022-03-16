@@ -581,6 +581,8 @@ UrQMD.hh
 /Users/nuclear/Geant4/CaFe/UrQMD.hh
 CRMC_FTFP_BERT.hh
 /Users/nuclear/Geant4/CaFe/CRMC_FTFP_BERT.hh
+FTFP_BERT.hh
+/Users/nuclear/Geant4/CaFe/FTFP_BERT.hh
 iostream
 -
 
@@ -2097,6 +2099,14 @@ cmath
 -
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/CompileTimeConstraints.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/FTFP_BERT.hh
+CLHEP/Units/SystemOfUnits.h
+-
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+G4VModularPhysicsList.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VModularPhysicsList.hh
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ASCIITree.hh
 G4VTree.hh

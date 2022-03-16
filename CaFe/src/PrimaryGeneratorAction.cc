@@ -32,13 +32,25 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
+
+      G4cout << "Calling PrimaryGeneratorAction::GeneratePrimaries(G4Event* event) . . . " << G4endl;        
+
     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-    G4double zVertex = -5.0*mm;
-    
+
+    // in this context, beam particle is NOT the accelerator incident beam on target, but rather
+    // a starting primary particle generated to start our simulation
     G4ParticleDefinition* beam_particle = particleTable->FindParticle("proton");
+
+    G4double zVertex = 0.0*mm;    //primary particle vertex (set at 0 mm on z-vertex)
+    G4double theta_p = 66.4*deg;  //primary particle ("proton") scattering angle
+    G4double Pf = 1325 * MeV;    // proton momentum
+    G4double mp = beam_particle->GetPDGMass();  //PDG mass is returned in unites of MeV
+    G4double Tp = std::sqrt(Pf*Pf + mp*mp) - mp;  // kinetic energy
+  
+    
     fParticleGun -> SetParticleDefinition( beam_particle );
-    fParticleGun -> SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-    fParticleGun -> SetParticleEnergy( 1 * GeV );
+    fParticleGun -> SetParticleMomentumDirection(G4ThreeVector(-sin(theta_p), 0, cos(theta_p)));
+    fParticleGun -> SetParticleEnergy( Tp );
     
     
     fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,zVertex));

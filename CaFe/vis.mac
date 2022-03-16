@@ -33,4 +33,4 @@
 /vis/scene/endOfEventAction accumulate
 /vis/viewer/set/autoRefresh true
 #/vis/verbose warnings
-#/run/beamOn 
+/run/beamOn 1

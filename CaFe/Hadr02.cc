@@ -15,6 +15,7 @@
 #include "G4VisExecutive.hh"
 #include "UrQMD.hh"
 #include "CRMC_FTFP_BERT.hh"
+#include "FTFP_BERT.hh"
 #include <iostream>
 
 using namespace std;
@@ -27,7 +28,7 @@ int main(int argc,char** argv) {
   G4UIExecutive* ui = nullptr;
   if (argc == 1) ui = new G4UIExecutive(argc,argv);
 
-  cout << "# of arguments: " << argc << endl;
+
   
   //choose the Random engine
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
@@ -38,43 +39,21 @@ int main(int argc,char** argv) {
   //set mandatory DetectorConstruction initialization class
   DetectorConstruction * fDetector = new DetectorConstruction();
   runManager->SetUserInitialization(fDetector);
-  
-  G4PhysListFactory factory;
-  G4VModularPhysicsList* phys = 0;
-  
-  // default Physics List for this example
-  G4String physName = "FTFP_BERT"; //"QBBC";
-  //G4String physName = "UrQMD";
-  
-  // Physics List name defined via 2nd argument
-  if (argc==3) { physName = argv[2]; }
-  else {
-    char* path = std::getenv("PHYSLIST");
-    if (path) { physName = G4String(path); }
-  }
-  if ( physName == "UrQMD" ) {
-    phys = new UrQMD;
-  } else if ( physName == "CRMC_FTFP_BERT" ) {
-    phys = new CRMC_FTFP_BERT;
-  } else {
-        phys = factory.GetReferencePhysList( physName );
-  }
 
-  G4cout << "physName ------------- > " << physName << endl;
-  // Physics List is defined via environment variable PHYSLIST
-  if(!phys) {
-    G4cout << "Hadr02 FATAL ERROR: Physics List is not defined"
-	   << G4endl;
-    return 1;
-  }
-  
   //set mandatory PhysicsList initialization class
-  runManager->SetUserInitialization(phys);
+  G4PhysListFactory factory;
+  G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  runManager->SetUserInitialization(physicsList);
 
-  HistoManager::GetPointer()->SetPhysicsList(phys);
-  runManager->SetUserAction(new PrimaryGeneratorAction());
   
-  //set user action classes
+  HistoManager::GetPointer()->SetPhysicsList(physicsList);
+
+
+  //set mandatory PrimaryGenerationAction action class
+  runManager->SetUserAction(new PrimaryGeneratorAction());
+
+  
+  //set optional user action classes
   runManager->SetUserAction(new RunAction());
   EventAction * evt = new EventAction();
   runManager->SetUserAction(evt);
