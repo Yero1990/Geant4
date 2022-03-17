@@ -19,7 +19,13 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction()
-: G4UserRunAction(){}
+: G4UserRunAction(){
+
+  G4cout << "Start RunAction Constructor . . ." << G4endl;
+
+  fdebug = 0;
+  id = 0;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -28,17 +34,24 @@ RunAction::~RunAction(){}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::BeginOfRunAction(const G4Run* run){
-    G4int id = run->GetRunID();
-    G4cout << "### Run " << id << " start" << G4endl;
-    HistoManager::GetPointer()->BeginOfRun();
-    
-    OpenCSVFile();
+  id = run->GetRunID();
+  G4cout << "===============" << G4endl;
+  G4cout << "= Run " << id << " START =" << G4endl;
+  G4cout << "===============" << G4endl;
+  
+  HistoManager::GetPointer()->BeginOfRun();
+  
+  OpenCSVFile();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void RunAction::EndOfRunAction(const G4Run*){
-    G4cout << "RunAction: End of run action is starting" << G4endl;
-    HistoManager::GetPointer()->EndOfRun();
+  
+  G4cout << "===================" << G4endl;
+  G4cout << "= Run " << id << " END =" << G4endl;
+  G4cout << "===================" << G4endl;
+  
+  HistoManager::GetPointer()->EndOfRun();
 }
 
 

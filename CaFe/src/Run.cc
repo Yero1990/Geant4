@@ -137,7 +137,7 @@ void Run::Merge(const G4Run* run){
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void Run::EndOfRun() {
-    int fdebug=2;
+    int fdebug=0;
     if (fdebug) std::cout << "Run::EndOfRun()" << std::endl;
     G4int prec = 5, wid = prec + 2;
     G4int dfprec = G4cout.precision(prec);

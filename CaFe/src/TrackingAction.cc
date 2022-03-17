@@ -17,7 +17,10 @@
 TrackingAction::TrackingAction()
 :G4UserTrackingAction(),
  fNbStep1(0),fNbStep2(0),fTrackLen1(0.),fTrackLen2(0.),fTime1(0.),fTime2(0.)
-{ }
+{
+  G4cout << "Start TrackingAction Constructor . . ." << G4endl;
+  
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -29,11 +29,16 @@ fEventMessenger(0),
 fSelectedEvents(),
 fNSelected(0),
 fDebugStarted(false){
-    fEventMessenger = new EventActionMessenger(this);
-    
-    time_t seed = time( NULL );
-    fRandomEngine = new CLHEP::HepJamesRandom( static_cast< long >( seed ) );
-    fRandomGauss = new CLHEP::RandGauss( fRandomEngine );
+
+  G4cout << "Start EventAction Constructor . . ." << G4endl;
+  
+  fEventMessenger = new EventActionMessenger(this);
+  
+  time_t seed = time( NULL );
+  fRandomEngine = new CLHEP::HepJamesRandom( static_cast< long >( seed ) );
+  fRandomGauss = new CLHEP::RandGauss( fRandomEngine );
+  
+  fdebug=0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
@@ -51,7 +56,8 @@ void EventAction::BeginOfEventAction(const G4Event* evt){
     
     // New event
     G4int nEvt = evt->GetEventID();
-    
+    G4cout << "---> Event # " << nEvt << " Start" << G4endl;
+
     if (fNSelected>0) {
         for(G4int i=0; i<fNSelected; i++) {
             if (nEvt == fSelectedEvents[i]) {
@@ -85,6 +91,7 @@ void EventAction::EndOfEventAction(const G4Event* evt){
     // kill event if there was no interaction in target
     // namely, if there is only one track
     int Ntracks = eventTracks.size();
+    G4cout << "Ntracks in Event " << evt->GetEventID() << ": " << Ntracks << G4endl;
     if (fdebug>1) std::cout << "Ntracks in event " << evt->GetEventID() << ":" << Ntracks << std::endl;
     //    if (Ntracks<2) return;
         
@@ -99,7 +106,9 @@ void EventAction::EndOfEventAction(const G4Event* evt){
     PrimaryInitialMomentum = PrimaryPreStepMomenta.at(0);
     PrimaryFinalMomentum = PrimaryPreStepMomenta.at( PrimaryPreStepMomenta.size()-1 );
     WritePrimaryMomentumToCSV();
-    
+
+    G4cout << "---> Event # " << evt->GetEventID() << " End" << G4endl;
+
     if (fdebug>1) std::cout << "done EventAction::EndOfEventAction(const G4Event* evt)" << std::endl;
 }
 
@@ -173,7 +182,7 @@ void EventAction::RecordEventTrack(const G4Track * track){
         std::cout << "Run::RecordEventTrack(const G4Track * track)" << std::endl;
     
     G4Track * t = new G4Track(*track);
-    t-> SetTrackID( track->GetTrackID()  );
+    t->SetTrackID( track->GetTrackID()  );
     t->SetParentID( track->GetParentID() );
     eventTracks.push_back(t);
     

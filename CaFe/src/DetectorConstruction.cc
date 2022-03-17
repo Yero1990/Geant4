@@ -69,9 +69,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
 
   // Geometrical World Volume
-  G4double world_sizeX = 5.*m;  // +/- 5 m along x-axis 
-  G4double world_sizeY = 5.*m;  // +/- 5 m ''
-  G4double world_sizeZ = 5.*m;  // +/- 5 m ''
+  G4double world_sizeX = 2.*cm;  // +/- 2 cm along x-axis 
+  G4double world_sizeY = 2.*cm;  // +/- 2 cm ''
+  G4double world_sizeZ = 2.*cm;  // +/- 2 cm ''
   G4Box* solidWorld = new G4Box("World",         // its name
 				world_sizeX,     // its size along x-axis
 				world_sizeY,     //  '' along y-axis 
@@ -134,7 +134,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
    // Physical Target Volume
   new G4PVPlacement(0,                      // no rotation
-		    G4ThreeVector(0,0,0),    // target volume with origin at (0,0,0)
+		    G4ThreeVector(0,0,0),    // target volume with origin at (0,0,0) of world
 		    logicalTarget,           // its logical volume 
 		    "Target",                // its name
 		    logicalWorld,            // its mother volume 

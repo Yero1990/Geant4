@@ -583,6 +583,8 @@ CRMC_FTFP_BERT.hh
 /Users/nuclear/Geant4/CaFe/CRMC_FTFP_BERT.hh
 FTFP_BERT.hh
 /Users/nuclear/Geant4/CaFe/FTFP_BERT.hh
+FTFP_INCLXX.hh
+/Users/nuclear/Geant4/CaFe/FTFP_INCLXX.hh
 iostream
 -
 
@@ -2107,6 +2109,10 @@ globals.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
 G4VModularPhysicsList.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VModularPhysicsList.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/FTFP_INCLXX.hh
+INCLXXPhysicsListHelper.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/INCLXXPhysicsListHelper.hh
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ASCIITree.hh
 G4VTree.hh
@@ -3980,6 +3986,10 @@ G4HadronElastic.hh
 G4HadronicProcess.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronicProcess.hh
 
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronElasticPhysicsHP.hh
+G4HadronElasticPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronElasticPhysics.hh
+
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronElasticProcess.hh
 globals.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
@@ -3989,6 +3999,20 @@ G4HadronicProcess.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronInelasticProcess.hh
 G4HadronicProcess.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronicProcess.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronPhysicsFTFP_BERT.hh
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+G4VPhysicsConstructor.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VPhysicsConstructor.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronPhysicsINCLXX.hh
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+G4ios.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ios.hh
+G4HadronPhysicsFTFP_BERT.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronPhysicsFTFP_BERT.hh
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronicException.hh
 exception
@@ -4177,6 +4201,14 @@ globals.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
 G4ios.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ios.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4IonINCLXXPhysics.hh
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+G4VPhysicsConstructor.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VPhysicsConstructor.hh
+vector
+-
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4IonPhysics.hh
 G4VPhysicsConstructor.hh
@@ -5993,6 +6025,10 @@ G4HadronicInteraction.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronicInteraction.hh
 globals.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4RadioactiveDecayPhysics.hh
+G4VPhysicsConstructor.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VPhysicsConstructor.hh
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4RayTracer.hh
 G4VGraphicsSystem.hh
@@ -8328,6 +8364,10 @@ G4VoxelNavigation.icc
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VoxelNavigation.icc
 
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4WarnPLStatus.hh
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4XiMinus.hh
 globals.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
@@ -8459,6 +8499,62 @@ G4Normal3D.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4Normal3D.hh
 G4Transform3D.hh
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4Transform3D.hh
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/INCLXXPhysicsListHelper.hh
+CLHEP/Units/SystemOfUnits.h
+-
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+G4VModularPhysicsList.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4VModularPhysicsList.hh
+CompileTimeConstraints.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/CompileTimeConstraints.hh
+G4String.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4String.hh
+INCLXXPhysicsListHelper.icc
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/INCLXXPhysicsListHelper.icc
+
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/INCLXXPhysicsListHelper.icc
+iomanip
+-
+globals.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/globals.hh
+G4ios.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ios.hh
+G4ProcessManager.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ProcessManager.hh
+G4ProcessVector.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ProcessVector.hh
+G4ParticleTypes.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ParticleTypes.hh
+G4ParticleTable.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4ParticleTable.hh
+G4Material.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4Material.hh
+G4MaterialTable.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4MaterialTable.hh
+G4DecayPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4DecayPhysics.hh
+G4RadioactiveDecayPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4RadioactiveDecayPhysics.hh
+G4EmStandardPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4EmStandardPhysics.hh
+G4EmExtraPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4EmExtraPhysics.hh
+G4IonINCLXXPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4IonINCLXXPhysics.hh
+G4StoppingPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4StoppingPhysics.hh
+G4HadronElasticPhysics.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronElasticPhysics.hh
+G4HadronElasticPhysicsHP.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronElasticPhysicsHP.hh
+G4NeutronTrackingCut.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4NeutronTrackingCut.hh
+G4HadronPhysicsINCLXX.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4HadronPhysicsINCLXX.hh
+G4WarnPLStatus.hh
+/Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/G4WarnPLStatus.hh
 
 /Users/nuclear/geant4-source/geant4-v11.0.1-install/include/Geant4/PTL/Globals.hh
 algorithm

@@ -16,6 +16,7 @@
 #include "UrQMD.hh"
 #include "CRMC_FTFP_BERT.hh"
 #include "FTFP_BERT.hh"
+#include "FTFP_INCLXX.hh"
 #include <iostream>
 
 using namespace std;
@@ -42,7 +43,7 @@ int main(int argc,char** argv) {
 
   //set mandatory PhysicsList initialization class
   G4PhysListFactory factory;
-  G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  G4VModularPhysicsList* physicsList = new FTFP_INCLXX; //FTFP_BERT;
   runManager->SetUserInitialization(physicsList);
 
   
@@ -55,6 +56,7 @@ int main(int argc,char** argv) {
   
   //set optional user action classes
   runManager->SetUserAction(new RunAction());
+
   EventAction * evt = new EventAction();
   runManager->SetUserAction(evt);
   
@@ -62,9 +64,12 @@ int main(int argc,char** argv) {
   runManager->SetUserAction(stackingAction);
   
   TrackingAction* trackingAction = new TrackingAction();
+  
   SteppingAction* steppingAction = new SteppingAction(trackingAction, fDetector, evt);
   runManager->SetUserAction(steppingAction);
 
+  //
+  runManager->Initialize();
   
   //initialize visualization
   G4VisManager* visManager = new G4VisExecutive;

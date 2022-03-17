@@ -2,8 +2,7 @@
 /run/verbose 0
 
 #/testhadr/ionPhysics   UrQMD
-/testhadr/ionPhysics       FTFP_BERT 
-#QBBC
+#/testhadr/ionPhysics    FTFP_INCLXX 
 
 /run/initialize
 /vis/open OGL 600x600-0+0
@@ -17,8 +16,6 @@
 /vis/scene/add/axes 0 0 0 10 mm
 # Axes, scale, etc.
 
-
-
 /vis/scene/add/trajectories smooth
 /vis/modeling/trajectories/create/drawByCharge
 
@@ -30,7 +27,10 @@
 /vis/modeling/trajectories/drawByParticleID-0/set opticalphoton red
 /vis/viewer/set/background white
 
+#/run/beamOn 1
+
 /vis/scene/endOfEventAction accumulate
-/vis/viewer/set/autoRefresh true
+#/vis/viewer/set/autoRefresh true
+
 #/vis/verbose warnings
-/run/beamOn 1
+/run/beamOn 5

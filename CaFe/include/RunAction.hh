@@ -34,7 +34,7 @@ public: // Without description
     
     
     int fdebug=2;
-    
+    G4int id = 0;
     
     void            OpenCSVFile ( );
     void OpenEventInfoToCSVFile ( );
