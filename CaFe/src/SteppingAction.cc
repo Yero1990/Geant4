@@ -7,6 +7,9 @@
 #include "HistoManager.hh"
 #include "DetectorConstruction.hh"
 #include "G4RunManager.hh"
+#include "G4AnalysisManager.hh"
+#include "PrimaryGeneratorAction.hh"
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -20,13 +23,18 @@ SteppingAction::SteppingAction(TrackingAction* TrAct, DetectorConstruction* det,
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SteppingAction::~SteppingAction()
-{ }
+{
+
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
-    int fdebug=0;
-    
+    int fdebug=1;
+
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+ 
     if (fdebug>1){
         std::cout <<"SteppingAction::UserSteppingAction(const G4Step* aStep) " << std::endl;
     }
@@ -43,32 +51,89 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     G4double ekin   = endPoint->GetKineticEnergy();
     G4double trackl = aStep->GetTrack()->GetTrackLength();
     G4double time   = aStep->GetTrack()->GetLocalTime();
-
+    G4int trackID = aStep->GetTrack()->GetTrackID();
+    G4double phi_f      = endPoint -> GetPosition().phi();
+    G4double theta_f    = endPoint -> GetPosition().theta();
     
-    if(aStep->GetTrack()->GetParticleDefinition()->GetParticleName()=="proton"){
-
-      G4cout << "Start UserSteppingAction (for protons) . . ." << G4endl;
-      G4cout << "Step #: " << aStep->GetTrack()->GetCurrentStepNumber() << G4endl;
-      G4cout << "Step Track Length: " << trackl/mm << G4endl;
-      G4cout << "Step Time: " << time/ns << G4endl;
-      
-      //C.Y.  useful line to define whether the particle has reached the target volume boundary or not. This might be useful if we
-      // want to know how many particles actually managed to leave the target. see: https://geant4-forum.web.cern.ch/t/how-to-detect-particle-without-killing-it/3209/5
-      //G4bool boundaryHit = endPoint->GetStepStatus() == fGeomBoundary && startPoint->GetPhysicalVolume()->GetName() == "World" ;
-      //G4cout << "startPoint->GetPhysicalVolume()->GetName(): " << startPoint->GetPhysicalVolume()->GetName() << G4endl;
-      //G4cout << "startPoint->GetStepStatus(): " << startPoint->GetStepStatus() << G4endl;
-      //G4cout << "endPoint->GetStepStatus(): " << endPoint->GetStepStatus() << G4endl;
-
-      
-      G4cout << "fGeomBoundary ID: " << fGeomBoundary << G4endl;      
-      G4cout << "fWorldBoundary ID: " << fWorldBoundary << G4endl;
-      G4cout << "PreStepPoint Status: " << aStep->GetPreStepPoint()->GetStepStatus() << G4endl;
-      G4cout << "PostStepPoint Status: " << aStep->GetPostStepPoint()->GetStepStatus() << G4endl;
+    G4bool pAtBoundary = false;
+    if (fdebug==1){
+      if(aStep->GetTrack()->GetParticleDefinition()->GetParticleName()=="proton"){
 	
-      if (aStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary) {
-	std::cout << "Step ends on geometry boundary ! ! !" << std::endl;
+	
+	//C.Y.  useful line to define whether the particle has reached the target volume boundary or not. This might be useful if we
+	// want to know how many particles actually managed to leave the target. see: https://geant4-forum.web.cern.ch/t/how-to-detect-particle-without-killing-it/3209/5
+	//G4bool boundaryHit = endPoint->GetStepStatus() == fGeomBoundary && startPoint->GetPhysicalVolume()->GetName() == "World" ;
+	//G4cout << "startPoint->GetPhysicalVolume()->GetName(): " << startPoint->GetPhysicalVolume()->GetName() << G4endl;
+	//G4cout << "startPoint->GetStepStatus(): " << startPoint->GetStepStatus() << G4endl;
+	//G4cout << "endPoint->GetStepStatus(): " << endPoint->GetStepStatus() << G4endl;
+	
+	/*
+	  G4cout << "fGeomBoundary ID: " << fGeomBoundary << G4endl;      
+	  G4cout << "fWorldBoundary ID: " << fWorldBoundary << G4endl;
+	  G4cout << "PreStepPoint Status: " << aStep->GetPreStepPoint()->GetStepStatus() << G4endl;
+	  G4cout << "PostStepPoint Status: " << aStep->GetPostStepPoint()->GetStepStatus() << G4endl;
+	*/
+
+	
+	if (aStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary && trackID==1) {
+
+	  pAtBoundary = true;
+	  analysisManager->FillH1(0, pAtBoundary);
+
+	  /*
+	  std::cout << "Step ends on geometry boundary ! ! !" << std::endl;
+	  G4cout << "Step #: " << aStep->GetTrack()->GetCurrentStepNumber() << G4endl;
+	  G4cout << "Step Track ID: " << aStep->GetTrack()->GetTrackID() << G4endl;
+	  G4cout << "Step Particle: "<< aStep->GetTrack()->GetParticleDefinition()->GetParticleName() << G4endl;
+	  G4cout << "Step Process: " << process->GetProcessName() << G4endl;
+	  G4cout << "Step Track Length [mm]: " << trackl/CLHEP::mm << G4endl;
+	  G4cout << "Step Time [n]: " << time/CLHEP::ns << G4endl;
+	  G4cout << "Start Step Pos: (x,y,z)"      << "("
+		 << startPoint->GetPosition().x() << ","
+		 << startPoint->GetPosition().y() << ","
+		 << startPoint->GetPosition().z() << ") [mm]"
+		 << "->";
+	  
+	  G4cout << "End Step Pos: (x,y,z)" << "("
+		 << endPoint->GetPosition().x() << ","
+		 << endPoint->GetPosition().y() << ","
+		 << endPoint->GetPosition().z() << ") [mm]"
+		 << ", step length: " << aStep->GetStepLength()/CLHEP::mm << " mm "
+		 << G4endl;
+	  G4cout << "Start Step Momentum: (Px,Py,Pz, P)"      << "("
+		 << startPoint->GetMomentum().x() << ","
+		 << startPoint->GetMomentum().y() << ","
+		 << startPoint->GetMomentum().z() << ","
+		 << startPoint->GetMomentum().mag() << ") [GeV/c]"
+		 << "->";
+	  
+	  G4cout << "End Step Momentum: (Px,Py,Pz,P)" << "("
+		 << endPoint->GetMomentum().x() << ","
+		 << endPoint->GetMomentum().y() << ","
+		 << endPoint->GetMomentum().z() << ","
+		 << endPoint->GetMomentum().mag() << ") [GeV/c]"
+		 << G4endl;
+
+	  G4cout << "End Step (theta, phi): " << "("
+		 << endPoint->GetPosition().theta()/CLHEP::deg << ","
+		 << endPoint->GetPosition().phi()/CLHEP::deg << ") [deg]"
+		 << G4endl;
+	  */
+	  analysisManager->FillH1(1, trackID);
+	  analysisManager->FillH1(2, endPoint->GetMomentum().mag()/CLHEP::GeV);
+	  analysisManager->FillH1(3, endPoint->GetPosition().theta()/CLHEP::deg);
+	  analysisManager->FillH1(4, endPoint->GetPosition().phi()/CLHEP::deg);
+	  G4double xval = endPoint->GetPosition().phi()/CLHEP::deg;
+	  G4double yval = endPoint->GetPosition().theta()/CLHEP::deg;
+
+	  analysisManager->FillH2(0, xval,  yval);
+	  analysisManager->FillH2(1, endPoint->GetPosition().theta()/CLHEP::deg, endPoint->GetMomentum().mag()/CLHEP::GeV);
+	  analysisManager->FillH2(2, endPoint->GetPosition().phi()/CLHEP::deg, endPoint->GetMomentum().mag()/CLHEP::GeV);
+
+
+	}
+	
       }
-      
     }
     
     // incident primary particle - the most important one

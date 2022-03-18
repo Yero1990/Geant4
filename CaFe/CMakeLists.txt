@@ -63,6 +63,7 @@ target_link_libraries(particle_on_target ${CRMC_LIBRARIES} ${Geant4_LIBRARIES})
 set(Hadr02_SCRIPTS
    vis.mac
    run.mac
+   cafe.in
    hadr02.in
    hadr02.out
    urqmd.in

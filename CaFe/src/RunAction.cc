@@ -9,6 +9,7 @@
 #include "G4UImanager.hh"
 #include "G4VVisManager.hh"
 #include "G4NistManager.hh"
+#include "G4AnalysisManager.hh"
 #include "G4Element.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
@@ -40,6 +41,23 @@ void RunAction::BeginOfRunAction(const G4Run* run){
   G4cout << "===============" << G4endl;
   
   HistoManager::GetPointer()->BeginOfRun();
+
+
+  //C.Y. Create and open ROOTfile for storing variables
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+  //C.Y. Open an output file
+  analysisManager->OpenFile("cafe_example.root");
+
+  //C.Y. Create Histograms
+  analysisManager->CreateH1("0", "Histo 0 (# protons at boundary)", 100, -1, 5);
+  analysisManager->CreateH1("1", "Histo 1 (track ID)", 100, 0, 10);
+  analysisManager->CreateH1("2", "Histo 2 (Proton Momentum @ Boundary)", 100, 1.31, 1.33);
+  analysisManager->CreateH1("3", "Histo 3 (Proton In-Plane Angle #theta @ Boundary)", 60, 66.5, 67.5);
+  analysisManager->CreateH1("4", "Histo 4 (Proton Out-Plane Angle #phi @ Boundary)", 60, 179.5, 180.5);
+  analysisManager->CreateH2("0", "Histo 0 (Proton theta vs. phi)", 60, 179.5, 180.5, 60, 66.5, 67.5);
+  analysisManager->CreateH2("1", "Histo 1 (Proton P vs. theta)", 60, 66.5, 67.5, 100, 1.31, 1.33);
+  analysisManager->CreateH2("2", "Histo 2 (Proton P vs. phi)", 60, 179.5, 180.5, 100, 1.31, 1.33);
   
   OpenCSVFile();
 }
@@ -52,6 +70,11 @@ void RunAction::EndOfRunAction(const G4Run*){
   G4cout << "===================" << G4endl;
   
   HistoManager::GetPointer()->EndOfRun();
+
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  analysisManager->Write();
+  analysisManager->CloseFile();
+  
 }
 
 

@@ -98,8 +98,7 @@ void EventAction::EndOfEventAction(const G4Event* evt){
     HistoManager* man = HistoManager::GetPointer();
     man->EndOfEvent();
     
-    
-    
+       
     // Look for the primary particle' track,
     // and ask what is its momentum and direction after passing through the target
     PrimaryName = evt -> GetPrimaryVertex() -> GetPrimary() -> GetParticleDefinition() -> GetParticleName () ;

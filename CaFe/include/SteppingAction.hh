@@ -17,28 +17,28 @@
 #include <sstream>
 #include "DetectorConstruction.hh"
 
-
 class TrackingAction;
 class DetectorConstruction;
 class EventAction;
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class SteppingAction : public G4UserSteppingAction
 {
-  public:
-    SteppingAction(TrackingAction*,DetectorConstruction*,EventAction*);
-   ~SteppingAction();
+public:
+  SteppingAction(TrackingAction*,DetectorConstruction*,EventAction*);
+  ~SteppingAction();
+  
+  virtual void UserSteppingAction(const G4Step*);
+  
+  
+private:
+  TrackingAction* fTrackingAction;
+  DetectorConstruction* fDetector;
+  EventAction*       fEventAction;
 
-    virtual void UserSteppingAction(const G4Step*);
-    
-    
-  private:
-    TrackingAction* fTrackingAction;
-    DetectorConstruction* fDetector;
-    EventAction*       fEventAction;
-
-
+  
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
