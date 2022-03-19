@@ -1,0 +1,9 @@
+In this directory are articles/slides relevant to
+the study of proton interactions with CaFe targets
+(Ca-48), in order to estimate the survival probability
+of the proton once it exits the target.
+
+This study is complementary to the Geant4 simulation
+done on proton-Ca48 interactions to count how many
+protons survive, and serves as a sanity check to the
+Geant4 results. 
