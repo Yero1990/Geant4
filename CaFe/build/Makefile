@@ -863,6 +863,33 @@ src/PrimaryGeneratorAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/particle_on_target.dir/build.make CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.s
 .PHONY : src/PrimaryGeneratorAction.cc.s
 
+src/PrimaryGeneratorMessenger.o: src/PrimaryGeneratorMessenger.cc.o
+
+.PHONY : src/PrimaryGeneratorMessenger.o
+
+# target to build an object file
+src/PrimaryGeneratorMessenger.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/particle_on_target.dir/build.make CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o
+.PHONY : src/PrimaryGeneratorMessenger.cc.o
+
+src/PrimaryGeneratorMessenger.i: src/PrimaryGeneratorMessenger.cc.i
+
+.PHONY : src/PrimaryGeneratorMessenger.i
+
+# target to preprocess a source file
+src/PrimaryGeneratorMessenger.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/particle_on_target.dir/build.make CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.i
+.PHONY : src/PrimaryGeneratorMessenger.cc.i
+
+src/PrimaryGeneratorMessenger.s: src/PrimaryGeneratorMessenger.cc.s
+
+.PHONY : src/PrimaryGeneratorMessenger.s
+
+# target to generate assembly for a file
+src/PrimaryGeneratorMessenger.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/particle_on_target.dir/build.make CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.s
+.PHONY : src/PrimaryGeneratorMessenger.cc.s
+
 src/Run.o: src/Run.cc.o
 
 .PHONY : src/Run.o
@@ -1248,6 +1275,9 @@ help:
 	@echo "... src/PrimaryGeneratorAction.o"
 	@echo "... src/PrimaryGeneratorAction.i"
 	@echo "... src/PrimaryGeneratorAction.s"
+	@echo "... src/PrimaryGeneratorMessenger.o"
+	@echo "... src/PrimaryGeneratorMessenger.i"
+	@echo "... src/PrimaryGeneratorMessenger.s"
 	@echo "... src/Run.o"
 	@echo "... src/Run.i"
 	@echo "... src/Run.s"

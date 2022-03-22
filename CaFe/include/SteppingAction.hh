@@ -31,8 +31,12 @@ public:
   ~SteppingAction();
   
   virtual void UserSteppingAction(const G4Step*);
-  
-  
+
+  // total track length and time counters
+  G4double tot_trk_length = 0;
+  G4double tot_trk_time = 0;
+  G4int boundary_step = -1; // variable to record the step corresponding to the boundary condition
+  G4int prev_evt = 0; // our starting event number (to store previous event numbers)
 private:
   TrackingAction* fTrackingAction;
   DetectorConstruction* fDetector;

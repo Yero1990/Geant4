@@ -22,15 +22,13 @@
 /vis/modeling/trajectories/create/drawByParticleID
 /vis/modeling/trajectories/drawByParticleID-0/set e- black
 /vis/modeling/trajectories/drawByParticleID-0/set proton blue
-/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
-/vis/modeling/trajectories/drawByParticleID-0/set gamma grey
-/vis/modeling/trajectories/drawByParticleID-0/set opticalphoton red
+/vis/modeling/trajectories/drawByParticleID-0/set neutron red
+/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
+/vis/modeling/trajectories/drawByParticleID-0/set opticalphoton magenta
 /vis/viewer/set/background white
 
-#/run/beamOn 1
-
 /vis/scene/endOfEventAction accumulate
-#/vis/viewer/set/autoRefresh true
+/vis/viewer/set/autoRefresh true
 
 #/vis/verbose warnings
 /run/beamOn 10

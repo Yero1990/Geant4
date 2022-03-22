@@ -356,6 +356,12 @@ G4VUserPrimaryGeneratorAction.hh
 globals.hh
 ../include/globals.hh
 
+../include/PrimaryGeneratorMessenger.hh
+G4UImessenger.hh
+../include/G4UImessenger.hh
+globals.hh
+../include/globals.hh
+
 ../include/Run.hh
 G4Run.hh
 ../include/G4Run.hh
@@ -1398,6 +1404,16 @@ G4SystemOfUnits.hh
 G4ParticleTable.hh
 /Users/nuclear/Geant4/CaFe/src/G4ParticleTable.hh
 
+/Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorMessenger.cc
+PrimaryGeneratorMessenger.hh
+/Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorMessenger.hh
+PrimaryGeneratorAction.hh
+/Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorAction.hh
+G4UIdirectory.hh
+/Users/nuclear/Geant4/CaFe/src/G4UIdirectory.hh
+G4UIcmdWithAnInteger.hh
+/Users/nuclear/Geant4/CaFe/src/G4UIcmdWithAnInteger.hh
+
 /Users/nuclear/Geant4/CaFe/src/Run.cc
 Run.hh
 /Users/nuclear/Geant4/CaFe/src/Run.hh
@@ -1495,6 +1511,8 @@ G4AnalysisManager.hh
 /Users/nuclear/Geant4/CaFe/src/G4AnalysisManager.hh
 PrimaryGeneratorAction.hh
 /Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorAction.hh
+math.h
+-
 
 /Users/nuclear/Geant4/CaFe/src/TargetSD.cc
 TargetSD.hh

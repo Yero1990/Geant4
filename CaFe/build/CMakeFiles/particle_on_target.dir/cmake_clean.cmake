@@ -24,6 +24,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/particle_on_target.dir/src/IonHIJINGPhysics.cc.o"
   "CMakeFiles/particle_on_target.dir/src/IonUrQMDPhysics.cc.o"
   "CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.o"
+  "CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o"
   "CMakeFiles/particle_on_target.dir/src/Run.cc.o"
   "CMakeFiles/particle_on_target.dir/src/RunAction.cc.o"
   "CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o"

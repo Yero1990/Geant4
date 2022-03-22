@@ -12,8 +12,8 @@ def calc_inelasticXsec(A):
     # A: mass number or number of nucleons (protons+neutrons)
     # this function calculates the inelastic p-A cross section
     # parameters obtained from Fig 3 (bottom). of J. Carvalho (2003)
-    sig0 = 43.55  # 43.55 +/- 0.40 mb
-    alpha = 0.7111 # 0.7111 +/- 0.0011
+    sig0 = 45. #43.55  # 43.55 +/- 0.40 mb
+    alpha = 0.69 #0.7111 # 0.7111 +/- 0.0011
     sig_inelastic = sig0 * (A**alpha)
 
     return sig_inelastic # inelastic proton-A cross-section in millibarns (mb)
@@ -82,7 +82,7 @@ def main():
           '\n p-A total cross section (mb): ', calc_totalXsec(A),
           '\n ',
           '\nmean free path (cm): ', lam,
-          '\nfor a path length travelled (cm): ', l,
+          '\npath length travelled (cm): ', l,
           '\n1. interaction prob. with material :', Pl,
           '\n2. survival prob. in material : ', Ps)
     

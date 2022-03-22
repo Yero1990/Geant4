@@ -56,7 +56,9 @@ void EventAction::BeginOfEventAction(const G4Event* evt){
     
     // New event
     G4int nEvt = evt->GetEventID();
-    G4cout << "---> Event # " << nEvt << " Start" << G4endl;
+    G4cout << "====================" << G4endl;
+    G4cout << "= Start Event # " << nEvt << " =" << G4endl;
+    G4cout << "====================" << G4endl;
 
     if (fNSelected>0) {
         for(G4int i=0; i<fNSelected; i++) {
@@ -106,8 +108,10 @@ void EventAction::EndOfEventAction(const G4Event* evt){
     PrimaryFinalMomentum = PrimaryPreStepMomenta.at( PrimaryPreStepMomenta.size()-1 );
     WritePrimaryMomentumToCSV();
 
-    G4cout << "---> Event # " << evt->GetEventID() << " End" << G4endl;
-
+    G4cout << "====================" << G4endl;
+    G4cout << "= End Event # " << evt->GetEventID() << " =" << G4endl;
+    G4cout << "====================" << G4endl;
+    
     if (fdebug>1) std::cout << "done EventAction::EndOfEventAction(const G4Event* evt)" << std::endl;
 }
 

@@ -401,9 +401,22 @@ CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.s"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorAction.cc -o CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.s
 
+CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o: CMakeFiles/particle_on_target.dir/flags.make
+CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o: ../src/PrimaryGeneratorMessenger.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o"
+	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o -c /Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorMessenger.cc
+
+CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.i"
+	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorMessenger.cc > CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.i
+
+CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.s"
+	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nuclear/Geant4/CaFe/src/PrimaryGeneratorMessenger.cc -o CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.s
+
 CMakeFiles/particle_on_target.dir/src/Run.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/Run.cc.o: ../src/Run.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/particle_on_target.dir/src/Run.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/particle_on_target.dir/src/Run.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/Run.cc.o -c /Users/nuclear/Geant4/CaFe/src/Run.cc
 
 CMakeFiles/particle_on_target.dir/src/Run.cc.i: cmake_force
@@ -416,7 +429,7 @@ CMakeFiles/particle_on_target.dir/src/Run.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/RunAction.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/RunAction.cc.o: ../src/RunAction.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/particle_on_target.dir/src/RunAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/particle_on_target.dir/src/RunAction.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/RunAction.cc.o -c /Users/nuclear/Geant4/CaFe/src/RunAction.cc
 
 CMakeFiles/particle_on_target.dir/src/RunAction.cc.i: cmake_force
@@ -429,7 +442,7 @@ CMakeFiles/particle_on_target.dir/src/RunAction.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o: ../src/StackingAction.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o -c /Users/nuclear/Geant4/CaFe/src/StackingAction.cc
 
 CMakeFiles/particle_on_target.dir/src/StackingAction.cc.i: cmake_force
@@ -442,7 +455,7 @@ CMakeFiles/particle_on_target.dir/src/StackingAction.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.o: ../src/StackingMessenger.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.o -c /Users/nuclear/Geant4/CaFe/src/StackingMessenger.cc
 
 CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.i: cmake_force
@@ -455,7 +468,7 @@ CMakeFiles/particle_on_target.dir/src/StackingMessenger.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.o: ../src/SteppingAction.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.o -c /Users/nuclear/Geant4/CaFe/src/SteppingAction.cc
 
 CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.i: cmake_force
@@ -468,7 +481,7 @@ CMakeFiles/particle_on_target.dir/src/SteppingAction.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/TargetSD.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/TargetSD.cc.o: ../src/TargetSD.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/particle_on_target.dir/src/TargetSD.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/particle_on_target.dir/src/TargetSD.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/TargetSD.cc.o -c /Users/nuclear/Geant4/CaFe/src/TargetSD.cc
 
 CMakeFiles/particle_on_target.dir/src/TargetSD.cc.i: cmake_force
@@ -481,7 +494,7 @@ CMakeFiles/particle_on_target.dir/src/TargetSD.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.o: ../src/TrackingAction.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.o -c /Users/nuclear/Geant4/CaFe/src/TrackingAction.cc
 
 CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.i: cmake_force
@@ -494,7 +507,7 @@ CMakeFiles/particle_on_target.dir/src/TrackingAction.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.o: ../src/UrQMDAntiBarionBuilder.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.o -c /Users/nuclear/Geant4/CaFe/src/UrQMDAntiBarionBuilder.cc
 
 CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.i: cmake_force
@@ -507,7 +520,7 @@ CMakeFiles/particle_on_target.dir/src/UrQMDAntiBarionBuilder.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.o: ../src/UrQMDNeutronBuilder.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.o -c /Users/nuclear/Geant4/CaFe/src/UrQMDNeutronBuilder.cc
 
 CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.i: cmake_force
@@ -520,7 +533,7 @@ CMakeFiles/particle_on_target.dir/src/UrQMDNeutronBuilder.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.o: ../src/UrQMDPiKBuilder.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.o -c /Users/nuclear/Geant4/CaFe/src/UrQMDPiKBuilder.cc
 
 CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.i: cmake_force
@@ -533,7 +546,7 @@ CMakeFiles/particle_on_target.dir/src/UrQMDPiKBuilder.cc.s: cmake_force
 
 CMakeFiles/particle_on_target.dir/src/UrQMDProtonBuilder.cc.o: CMakeFiles/particle_on_target.dir/flags.make
 CMakeFiles/particle_on_target.dir/src/UrQMDProtonBuilder.cc.o: ../src/UrQMDProtonBuilder.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDProtonBuilder.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/particle_on_target.dir/src/UrQMDProtonBuilder.cc.o"
 	/Applications/Xcode13.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/particle_on_target.dir/src/UrQMDProtonBuilder.cc.o -c /Users/nuclear/Geant4/CaFe/src/UrQMDProtonBuilder.cc
 
 CMakeFiles/particle_on_target.dir/src/UrQMDProtonBuilder.cc.i: cmake_force
@@ -571,6 +584,7 @@ particle_on_target_OBJECTS = \
 "CMakeFiles/particle_on_target.dir/src/IonHIJINGPhysics.cc.o" \
 "CMakeFiles/particle_on_target.dir/src/IonUrQMDPhysics.cc.o" \
 "CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.o" \
+"CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o" \
 "CMakeFiles/particle_on_target.dir/src/Run.cc.o" \
 "CMakeFiles/particle_on_target.dir/src/RunAction.cc.o" \
 "CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o" \
@@ -611,6 +625,7 @@ particle_on_target: CMakeFiles/particle_on_target.dir/src/IonCRMCPhysics.cc.o
 particle_on_target: CMakeFiles/particle_on_target.dir/src/IonHIJINGPhysics.cc.o
 particle_on_target: CMakeFiles/particle_on_target.dir/src/IonUrQMDPhysics.cc.o
 particle_on_target: CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorAction.cc.o
+particle_on_target: CMakeFiles/particle_on_target.dir/src/PrimaryGeneratorMessenger.cc.o
 particle_on_target: CMakeFiles/particle_on_target.dir/src/Run.cc.o
 particle_on_target: CMakeFiles/particle_on_target.dir/src/RunAction.cc.o
 particle_on_target: CMakeFiles/particle_on_target.dir/src/StackingAction.cc.o
@@ -682,7 +697,7 @@ particle_on_target: /Users/nuclear/geant4-source/geant4-v11.0.1-install/lib/libG
 particle_on_target: /Users/nuclear/geant4-source/geant4-v11.0.1-install/lib/libG4clhep.dylib
 particle_on_target: /Users/nuclear/geant4-source/geant4-v11.0.1-install/lib/libG4ptl.0.0.2.dylib
 particle_on_target: CMakeFiles/particle_on_target.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Linking CXX executable particle_on_target"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nuclear/Geant4/CaFe/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Linking CXX executable particle_on_target"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/particle_on_target.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -35,13 +35,20 @@ public:
   virtual ~PrimaryGeneratorAction();
 
   virtual void GeneratePrimaries(G4Event*);
-  
+
+public:
+  G4ParticleGun* GetParticleGun() { return fParticleGun; };
+  void SelectAction(G4int i) { fSelectedAction = i; };    
+  G4int GetSelectedAction()  { return fSelectedAction; };
+
 private:
   PrimaryGeneratorAction & operator=(const PrimaryGeneratorAction &right);
   PrimaryGeneratorAction(const PrimaryGeneratorAction&);
 
   G4ParticleGun*   fParticleGun;
-  HistoManager*    fHisto; 
+  HistoManager*    fHisto;
+  G4int                    fSelectedAction;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
