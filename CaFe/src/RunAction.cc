@@ -54,17 +54,25 @@ void RunAction::BeginOfRunAction(const G4Run* run){
   analysisManager->CreateH1("0", "(# protons at boundary)", 100, -1, 5);
   analysisManager->CreateH1("1", "(track ID)", 100, 0, 10);
   analysisManager->CreateH1("2", "(Proton Momentum @ Boundary)", 100, 1.31, 1.33);
-  analysisManager->CreateH1("3", "(Proton In-Plane Angle #theta @ Boundary)", 60, 66.5, 67.5);
+  analysisManager->CreateH1("3", "(Proton In-Plane Angle #theta @ Boundary)", 60, 66.3, 67.8);
   analysisManager->CreateH1("4", "(Proton Out-Plane Angle #phi @ Boundary [-180,180])", 60, 179.5, 180.5);
-  analysisManager->CreateH1("5", "(Proton Out-Plane Angle #phi @ Boundary [0, 360])", 360, 0, 360);
+  analysisManager->CreateH1("5", "(Proton Out-Plane Angle #phi @ Boundary [0, 360])", 60, 178, 182);
+  analysisManager->CreateH1("6", "track path length [mm]", 100, 6.7, 7.1);
+  analysisManager->CreateH1("7", "track path time [ns]", 100, 0, 0.05);
+
   
   // 2D
-  analysisManager->CreateH2("0", "(Proton theta vs. phi)[phi: (-180,180)]", 60, 179.5, 180.5, 60, 66.5, 67.5);
-  analysisManager->CreateH2("1", "(Proton theta vs. phi)[phi: (0,360)]", 360, 0, 360, 60, 66.5, 67.5);
+  analysisManager->CreateH2("0", "(Proton theta vs. phi)[phi: (-180,180)]", 60, 179.5, 180.5, 60, 66.3, 67.8);
+  analysisManager->CreateH2("1", "(Proton theta vs. phi)[phi: (0,360)]", 60, 178, 182, 60, 66.3, 67.8);
 
-  analysisManager->CreateH2("2", "(Proton P vs. theta)", 60, 66.5, 67.5, 100, 1.31, 1.33);
+  analysisManager->CreateH2("2", "(Proton P vs. theta)", 60, 66.3, 67.8, 100, 1.31, 1.33);
   analysisManager->CreateH2("3", "(Proton P vs. phi)[phi: (-180,180)]", 60, 179.5, 180.5, 100, 1.31, 1.33);
-  analysisManager->CreateH2("4", "(Proton P vs. phi)[phi: (0,360)]", 360, 0, 360, 100, 1.31, 1.33);
+  analysisManager->CreateH2("4", "(Proton P vs. phi)[phi: (0,360)]", 60, 178, 182, 100, 1.31, 1.33);
+
+  analysisManager->CreateH2("5", "(Proton dth vs. dphi) [phi:0,360]", 60, -0.07, 0.07, 60, -0.07, 0.07);
+  analysisManager->CreateH2("6", "(Proton delta vs. dth) ", 60, -0.07, 0.07, 60, -0.7, 0.7);
+  analysisManager->CreateH2("7", "(Proton delta vs. dphi) ", 60, -0.07, 0.07, 60, -0.7, 0.7);
+
   
   OpenCSVFile();
 }

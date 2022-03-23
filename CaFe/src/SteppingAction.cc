@@ -18,10 +18,7 @@ SteppingAction::SteppingAction(TrackingAction* TrAct, DetectorConstruction* det,
 {
   G4cout << "Start SteppingAction Constructor . . ." << G4endl;
 
-  // initialize track lenght/time counters
-  tot_trk_length = 0;
-  tot_trk_time = 0;
-  boundary_step = -1;
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -57,9 +54,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
     
     // get particle position at the (start, end) of each step
-    G4double pos_ix  = startPoint->GetPosition().x()/CLHEP::mm;               // particle x-comp. of 3-position at start of step
-    G4double pos_iy  = startPoint->GetPosition().y()/CLHEP::mm;               // particle y-comp. of 3-position at start of step
-    G4double pos_iz  = startPoint->GetPosition().z()/CLHEP::mm;               // particle z-comp. 3-position at start of step
+    G4double pos_xi  = startPoint->GetPosition().x()/CLHEP::mm;               // particle x-comp. of 3-position at start of step
+    G4double pos_yi  = startPoint->GetPosition().y()/CLHEP::mm;               // particle y-comp. of 3-position at start of step
+    G4double pos_zi  = startPoint->GetPosition().z()/CLHEP::mm;               // particle z-comp. 3-position at start of step
     G4double pos_i   = startPoint->GetPosition().mag()/CLHEP::mm;             // particle magnitude of 3-position at start of step
 
     G4double pos_xf  = endPoint->GetPosition().x()/CLHEP::mm;                 // particle 3-position at end of step
@@ -68,32 +65,59 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     G4double pos_f   = endPoint->GetPosition().mag()/CLHEP::mm;               // particle magnitude of 3-position at end of step
 
     // get particle momenta at the (start, end) of each step
-    G4double p_ix  = startPoint->GetMomentum().x()/CLHEP::GeV;                 // particle x-comp. of 3-momentum at start of step
-    G4double p_iy  = startPoint->GetMomentum().y()/CLHEP::GeV;                 // particle y-comp. of 3-momentum at start of step
-    G4double p_iz  = startPoint->GetMomentum().z()/CLHEP::GeV;                 // particle z-comp. 3-momentum at start of step
+    G4double p_xi  = startPoint->GetMomentum().x()/CLHEP::GeV;                 // particle x-comp. of 3-momentum at start of step
+    G4double p_yi  = startPoint->GetMomentum().y()/CLHEP::GeV;                 // particle y-comp. of 3-momentum at start of step
+    G4double p_zi  = startPoint->GetMomentum().z()/CLHEP::GeV;                 // particle z-comp. 3-momentum at start of step
     G4double p_i   = startPoint->GetMomentum().mag()/CLHEP::GeV;               // particle magnitude of 3-momentum at start of step
 
-    G4double p_fx  = endPoint->GetMomentum().x()/CLHEP::GeV;                 // particle 3-momentum at end of step
-    G4double p_fy  = endPoint->GetMomentum().y()/CLHEP::GeV;                 // particle 3-momentum at end of step
-    G4double p_fz  = endPoint->GetMomentum().z()/CLHEP::GeV;                 // particle 3-momentum at end of step
+    G4double p_xf  = endPoint->GetMomentum().x()/CLHEP::GeV;                 // particle 3-momentum at end of step
+    G4double p_yf  = endPoint->GetMomentum().y()/CLHEP::GeV;                 // particle 3-momentum at end of step
+    G4double p_zf  = endPoint->GetMomentum().z()/CLHEP::GeV;                 // particle 3-momentum at end of step
     G4double p_f   = endPoint->GetMomentum().mag()/CLHEP::GeV;               // particle magnitude of 3-momentum at end of step
 
+    // get particle local time and star/end of each step
+    G4double ti_local   = startPoint->GetLocalTime()/CLHEP::ns;             // particle magnitude of 3-position at start of step
+    G4double tf_local   = endPoint->GetLocalTime()/CLHEP::ns;             // particle magnitude of 3-position at start of step
 
     // get other particle step information
-    G4double ekin          = endPoint->GetKineticEnergy()/CLHEP::GeV;           // particle kinetic energy at end of each step
-    G4double step_track    = aStep->GetTrack()->GetTrackLength()/CLHEP::mm;     // particle track length along each step (from start-to-end of step)
-    G4double step_time     = aStep->GetTrack()->GetLocalTime()/CLHEP::ns;       // particle time along each step (from start-to-end of step)
+    G4double ekin_start    = startPoint->GetKineticEnergy()/CLHEP::MeV;           // particle kinetic energy at end of each step
+    G4double ekin_end      = endPoint->GetKineticEnergy()/CLHEP::MeV;           // particle kinetic energy at end of each step
+
+    G4double phi_i         = startPoint->GetPosition().phi()/CLHEP::deg;          // particle end-step out-of-plane azimuth angle [-180, 180] deg (this will need to be converted to [0,360] deg later
+    G4double theta_i       = startPoint->GetPosition().theta()/CLHEP::deg;        // particle end-step in-plane "polar" angle
+    G4double phi_i_v2      = phi_i + ceil(-phi_i/360)*360;           //particle azimuthal angle [0,360] deg
+    
+    G4double phi_f             = endPoint->GetPosition().phi()/CLHEP::deg;          // particle end-step out-of-plane azimuth angle [-180, 180] deg (this will need to be converted to [0,360] deg later
+    G4double theta_f           = endPoint->GetPosition().theta()/CLHEP::deg;        // particle end-step in-plane "polar" angle
+    G4double phi_f_v2          = phi_f + ceil(-phi_f/360.)*360.;           //particle azimuthal angle [0,360] deg
+    G4double track_length      = aStep->GetTrack()->GetTrackLength()/CLHEP::mm;     // cumulative particle track length up to and including aStep
+    G4double track_time        = aStep->GetTrack()->GetLocalTime()/CLHEP::ns;       // cumulative particle time up to and including aStep
+    G4double edep_total        = aStep->GetTotalEnergyDeposit()/CLHEP::MeV;         // total energy deposited in volume at each step (non-cumulative)
+    G4double edep_nonionizing  = aStep->GetNonIonizingEnergyDeposit()/CLHEP::MeV;
+
     G4int    trackID       = aStep->GetTrack()->GetTrackID();                   // trackID of each step (trackID changes if particle identity is lost)
-    G4double phi_f         = endPoint->GetPosition().phi()/CLHEP::deg;          // particle end-step out-of-plane azimuth angle [-180, 180] deg (this will need to be converted to [0,360] deg later
-    G4double theta_f       = endPoint->GetPosition().theta()/CLHEP::deg;        // particle end-step in-plane "polar" angle
-    G4double phi_f_v2      = phi_f + ceil(-phi_f/360)*360/CLHEP::deg;           //particle azimuthal angle [0,360] deg
+    
+
     G4String step_particle = aStep->GetTrack()->GetParticleDefinition()->GetParticleName();  //get particle name participating along the step
     G4int post_step_status  = aStep->GetPostStepPoint()->GetStepStatus();  // get the step status at the end of the step (this is mainly used to check boundary conditions)
 
     
     G4bool pAtBoundary = false;
 
-	
+
+  
+    // Define central angle/momentum for later calculation of momentum acceptance, and dtheta, dphi
+    // Recall: delta = (P - P0)/P0 * 100 [%]  where P0 is the central momentum (i.e., the initial proton momentum)
+    // dtheta = theta-theta0,  dphi = phi - phi0  | P0 = 1.325 * GeV, th0 = 66.9*deg, phi0 = 180.*deg
+    
+    G4double P0 = 1.325;
+    G4double th0 = 66.9;
+    G4double phi0 = 180.;
+    
+    G4double delta = (p_f - P0)/P0 * 100.;
+    G4double dth = theta_f - th0;
+    G4double dphi = phi_f_v2 - phi0;
+    
 	
       //C.Y.  useful line to define whether the particle has reached the target volume boundary or not. This might be useful if we
       // want to know how many particles actually managed to leave the target. see: https://geant4-forum.web.cern.ch/t/how-to-detect-particle-without-killing-it/3209/5
@@ -114,54 +138,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 
     if(step_particle=="proton") {
-	
-	analysisManager->FillH1(0, pAtBoundary);
-     
-	
-	//std::cout << "Step ends on geometry boundary ! ! !" << std::endl;
 
 
-	G4cout << "** evNum = " << evNum << G4endl;
-	G4cout << "** prev_evt = " << prev_evt << G4endl;
-	G4cout << "** boundary_step = " << boundary_step << G4endl;
-	G4cout << "** step number = " << aStep->GetTrack()->GetCurrentStepNumber() << G4endl;
-	G4cout << "step_track = " <<  step_track << G4endl;
-	G4cout << "tot_trk_length = " <<  tot_trk_length << G4endl;
-
-	/*
-	
-	// if particle is proton: for each aStep, sum the total track length and time (reset counters at start of new event)
-	if( (boundary_step==-1) || (aStep->GetTrack()->GetCurrentStepNumber() <= boundary_step)) {
-	  tot_trk_length += step_track;
-	  tot_trk_time += step_time;
-	}
-	else if (aStep->GetTrack()->GetCurrentStepNumber() > boundary_step) {
-	  tot_trk_length += 0;
-	  tot_trk_time  += 0;
-	}
-	
-	if ((evNum > prev_evt) &&  (aStep->GetTrack()->GetCurrentStepNumber()==1) ){
-	  G4cout << "** new event (reset counters) ! ! ! " << G4endl;
-	  G4cout << "evNum = " << evNum << G4endl;
-	  G4cout << "prevevNum = " << prev_evt << G4endl;
-	  
-	  tot_trk_length = 0;
-	  tot_trk_time   = 0;
-
-	  G4cout << "tot_trk_length (reseted) = " <<  tot_trk_length << G4endl;
-	  G4cout << "step_track = " <<  step_track << G4endl;
-	}
-	else if((aStep->GetTrack()->GetCurrentStepNumber()>1) && (aStep->GetTrack()->GetCurrentStepNumber() <= boundary_step) ){
-	  // start counting again . . .
-	  tot_trk_length += step_track;
-	  tot_trk_time += step_time;
-	  G4cout << "tot_trk_length + step_track = " <<  tot_trk_length << G4endl;	
-	}
-	*/
-	
-	// store current evNum as if it were the previous evNum (to be used in next event for comparison)
-	prev_evt = evNum;
-
+      
+      
+      if(fdebug==1){
 	// These statements are printed to screen for educational/understanding GEANT4 step tracking purposes
 	G4cout  << "" << G4endl;
 	G4cout << "-----------------" << G4endl;
@@ -172,53 +153,67 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	G4cout << "Step Track ID: " << trackID << G4endl;
 	G4cout << "Step Particle: "<< step_particle << G4endl;
 	G4cout << "Step Process: " << process->GetProcessName() << G4endl;
-	G4cout << "Step Track Length [mm]: " << step_track/CLHEP::mm << G4endl;
-	G4cout << "Step Time [ns]: "         << step_time/CLHEP::ns << G4endl;
-	G4cout << "Total Track Length [mm]: " << tot_trk_length << G4endl;
-	G4cout << "Total Time [ns]: "         << tot_trk_time << G4endl;
+	G4cout << "Step Track Length [mm]: " << track_length  << G4endl;
+	G4cout << "Step Time [ns]: "         << track_time  << G4endl;
+	G4cout << "(ti_local, tf_local, dt_local) [ns]: "<< ti_local << ", " << tf_local << ", " << (tf_local-ti_local) <<  G4endl;
 	G4cout << "Start Step Pos: (x,y,z)"      << "("
-	       << startPoint->GetPosition().x()/CLHEP::mm << ","
-	       << startPoint->GetPosition().y()/CLHEP::mm << ","
-	       << startPoint->GetPosition().z()/CLHEP::mm << ") [mm]"
+	       << pos_xi << ","
+	       << pos_yi << ","
+	       << pos_zi << ") [mm]"
 	       << "->";
 	G4cout << "End Step Pos: (x,y,z)" << "("
-	       << endPoint->GetPosition().x()/CLHEP::mm << ","
-	       << endPoint->GetPosition().y()/CLHEP::mm << ","
-	       << endPoint->GetPosition().z()/CLHEP::mm << ") [mm]"
+	       << pos_xf << ","
+	       << pos_yf << ","
+	       << pos_zf << ") [mm]"
 	       << ", step length: " << aStep->GetStepLength()/CLHEP::mm << " mm "
 	       << G4endl;
 	G4cout << "Start Step Momentum: (Px,Py,Pz, P)"      << "("
-	       << startPoint->GetMomentum().x()/CLHEP::GeV << ","
-	       << startPoint->GetMomentum().y()/CLHEP::GeV << ","
-	       << startPoint->GetMomentum().z()/CLHEP::GeV << ","
-	       << startPoint->GetMomentum().mag()/CLHEP::GeV << ") [GeV/c]"
+	       << p_xi << ","
+	       << p_yi << ","
+	       << p_zi << ","
+	       << p_i << ") [GeV/c]"
 	       << "->";
 	G4cout << "End Step Momentum: (Px,Py,Pz,P)" << "("
-	       << endPoint->GetMomentum().x()/CLHEP::GeV << ","
-	       << endPoint->GetMomentum().y()/CLHEP::GeV << ","
-	       << endPoint->GetMomentum().z()/CLHEP::GeV << ","
-	       << endPoint->GetMomentum().mag()/CLHEP::GeV << ") [GeV/c]"
+	       << p_xf << ","
+	       << p_yf << ","
+	       << p_zf << ","
+	       << p_f << ") [GeV/c]"
 	       << G4endl;
-	G4cout << "End Step (theta, phi): " << "("
-	       << endPoint->GetPosition().theta()/CLHEP::deg << ","
-	       << endPoint->GetPosition().phi()/CLHEP::deg << ") [deg]"
+	G4cout << "Start Step (theta_i, phi_i, phi_i_v2): " << "("
+	       << theta_i << ","
+	       << phi_i << ","
+	       << phi_i_v2 << ") [deg]"
 	       << G4endl;
+	G4cout << "End Step (theta_f, phi_f, phi_f_v2): " << "("
+	       << theta_f << ","
+	       << phi_f << ","
+	       << phi_f_v2 << ") [deg]"
+	       << G4endl;
+	G4cout << "(ekin_start, ekin_end) [MeV]: " << ekin_start << ", " << ekin_end << G4endl;
+	G4cout << "(edep_total, edep_noionizing) [MeV]: " << edep_total << ", " << edep_nonionizing << G4endl;
+	G4cout << "momentum acceptance (delta) = " << delta << " % " << G4endl; 
+	G4cout << "dtheta (th-th0) [deg] = " << dth << " [deg] " << G4endl; 
+	G4cout << "dphi (phi-phi0) [deg] = " << dphi << " [deg] " << G4endl; 
+	
       G4cout << "End Step @ Volume Boundary ?" << pAtBoundary << G4endl;
        
-
+      }
     
 
       if(pAtBoundary) {
 
-	boundary_step = aStep->GetTrack()->GetCurrentStepNumber();
 	
 	// Fill 1D Histos
+	analysisManager->FillH1(0, pAtBoundary);
 	analysisManager->FillH1(1, trackID);
 	analysisManager->FillH1(2, p_f);
 	analysisManager->FillH1(3, theta_f);
 	analysisManager->FillH1(4, phi_f);
 	analysisManager->FillH1(5, phi_f_v2);
-	
+	analysisManager->FillH1(6, track_length);
+	analysisManager->FillH1(7, track_time);
+	//analysisManager->FillH1();
+	  
 	// Fill 2D Histos
 	analysisManager->FillH2(0, phi_f, theta_f);
 	analysisManager->FillH2(1, phi_f_v2, theta_f);
@@ -227,25 +222,19 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	analysisManager->FillH2(3, phi_f,    p_f);
 	analysisManager->FillH2(4, phi_f_v2, p_f);
 
+	analysisManager->FillH2(5, dphi, dth);
+	analysisManager->FillH2(6, dth, delta);
+	analysisManager->FillH2(7, dphi, delta);
+	
+	//analysisManager->FillH2();
+	
       } // end volume boundary condition
 
-      
-      G4cout << "boundary_step ----> " << boundary_step << G4endl;
-
-
+     
       
     } // end proton requirement condition
 
-    /*
-    // check if current step is greater than or equal to boundary
-    if(aStep->GetTrack()->GetCurrentStepNumber() > boundary_step) {
 
-      // reset counters
-      tot_trk_length = 0;
-      tot_trk_time = 0;
-      
-    }
-    */
       
     // incident primary particle - the most important one
     // we record its pre-step and post-step momentum
@@ -254,7 +243,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
       
       fEventAction    -> SetPrimaryPreStepMomentum ( startPoint->GetPosition() );
       fEventAction    -> SetPrimaryPostStepMomentum( endPoint->GetPosition() );
-      fTrackingAction -> UpdateTrackInfo(ekin,step_track,step_time);
+      fTrackingAction -> UpdateTrackInfo(ekin_end,track_length,track_time);
         
         //        G4AnalysisManager::Instance()->FillH1(7,ekin);
     }

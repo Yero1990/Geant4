@@ -51,6 +51,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
  // keep only primary neutron
  //
  G4int trackID = track->GetTrackID();
+ G4cout << "track->GetTrackLength() = " << track->GetTrackLength()/CLHEP::mm << G4endl;
 // if (trackID > 1) return;
  
 // Run* run

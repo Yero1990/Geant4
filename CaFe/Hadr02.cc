@@ -64,6 +64,7 @@ int main(int argc,char** argv) {
   runManager->SetUserAction(stackingAction);
   
   TrackingAction* trackingAction = new TrackingAction();
+  runManager->SetUserAction(trackingAction);
   
   SteppingAction* steppingAction = new SteppingAction(trackingAction, fDetector, evt);
   runManager->SetUserAction(steppingAction);

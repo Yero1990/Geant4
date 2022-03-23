@@ -72,8 +72,8 @@ def main():
     lam = calc_mean_free_path(M, rho, sig_inelastic)
 
     # calculate path travelled by proton at 66.9 deg from +z axis
-    l = np.sqrt( (Lt/2)**2 + Rt**2 )  # approximation for now (need to check with Geant4 code to get distance)
-
+    #l = np.sqrt( (Lt/2)**2 + Rt**2 )  # approximation for now (need to check with Geant4 code to get distance)
+    l = 0.69;
     # calculate pA inelastic interaction probability
     Pl = calc_Intr_Prob(l, lam)
     Ps = 1. - Pl
